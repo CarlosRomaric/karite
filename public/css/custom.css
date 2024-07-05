@@ -1,0 +1,29 @@
+/*
+    CSS Custom file
+ */
+
+.trace-agri-background {
+    background: url("../images/bg-login.png") 0% 0% no-repeat padding-box;
+    background-size: cover;
+}
+
+.cnra-genotic-background {
+    background: url("../images/bg-login-2.jpg") 0% 0% no-repeat padding-box;
+    background-size: cover;
+ }
+
+ .karite-background {
+    background: url("../images/bg_karite.png");
+    background-size: cover;
+ }
+
+ .bg-karite {
+    background: url("../images/bg_karite_2.png");
+    background-size: cover;
+ }
+
+ .bg-karite-front{
+    background: url('../images/bg-karite-front.png');
+    background-size: cover;
+
+  }

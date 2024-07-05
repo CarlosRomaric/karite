@@ -1,0 +1,364 @@
+:root {
+    --bs-gray-200: #eee;
+    --bs-gray-500: #999;
+    --bs-gray-600: #777;
+    --bs-gray-800: #444;
+    --bs-light: #f9f9f9;
+    --bs-pink: #b94e91;
+    --bs-amber: bg-amber950
+  
+    --fnt: sans-serif;
+    --fnt-size: 3rem;
+  }
+
+.menu{
+    @apply shadow md:flex md:items-center md:justify-between items-center w-full bg-amber-800;
+    // background: #0e5907;
+    // background: #009118;
+
+    & .menu-content{
+        @apply  flex flex-col md:flex-row items-start justify-start md:items-center md:justify-between w-full px-4  md:px-16;
+        
+        & .menu-item{
+            @apply flex flex-row md:flex-col items-center gap-x-2 text-xl  text-gray-100 hover:text-gray-200  place-content-center;
+            & img{
+                //@apply size-6 md:h-9;
+            }
+           & label{
+                @apply text-xs md:text-base md:h-1;
+            }
+        }
+
+       
+    }
+}
+
+.card-amber{
+    @apply text-amber-800 text-base py-5 col-span-1 border-r border-amber-800 md:text-sm  md:pl-[12px] md:pr-[11px] lg:px-10 xl:px-10;
+}
+
+.card-amber-final{
+  @apply text-amber-800 text-base py-5 col-span-1 border-amber-800 md:text-sm  md:pl-[12px] md:pr-[11px] lg:px-10 xl:px-10;
+}
+
+.stat{
+    @apply font-bold text-3xl mt-5;
+}
+.stat-farmers{
+    @apply font-bold text-xl mt-5;
+}
+ 
+.hidden {
+    display: none !important;
+}
+
+.btn-green-table{
+    @apply text-white rounded-lg py-2 px-4 mx-3;
+    background: #568a51;
+}
+
+
+
+.img-h{
+    height: 27px !important;
+    margin-bottom: 5px !important;
+}
+
+.menu-hover{
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    padding-top: 25px;
+}
+
+.active{
+    //background: #568a51;
+    @apply bg-amber-700;
+}
+
+.active-div{
+    @apply border-b-4 border-gray-100 mt-3 rounded;
+    width: 85%;
+    margin-bottom: 1px;
+}
+
+.active-div-none{
+    visibility: hidden;
+    @apply border-b-4 border-gray-100 mt-3 rounded visible;
+}
+
+.menu-hover:hover{
+    .active-div-none{
+        @apply border-b-4 border-gray-100 mt-3 rounded visible;
+        width: 85%;
+        margin-bottom: 1px;
+    }
+}
+
+.bt-table{
+    @apply border-b  text-white font-medium dark:border-green-900;
+}
+.bg-green-custom{
+    background: #0e5907 !important;
+    //@apply bg-amber-800;
+}
+
+.bg-yellow-custom{
+    background: #fef11c !important;
+}
+
+.bg-orange-custom{
+    background: #f29b10 !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Gill+Sans:wght@700&display=swap');
+
+/* Appliquer la police Gill Sans Bold au champ d'identifiant */
+#identifiant {
+    font-family: 'Gill Sans', sans-serif;
+    font-weight: bold;
+}
+
+.bg-login-color{
+    // background-color: #0e5907 0.1 !important;
+    background-color: #f3e07a 0.1 !important;
+   
+    position: relative;
+    z-index:1;
+}
+
+.bg-login-color::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // background-color: #0e5907;
+    background-color: #f3e07a;
+    opacity: 0.1; /* Ajustez l'opacité selon vos besoins */
+    z-index: -1; /* Placez-le en arrière-plan */
+} 
+
+.above-bg {
+    opacity: 100%;
+    position: relative;
+    z-index: 2; /* Définissez un z-index plus élevé pour placer ces éléments au-dessus du fond */
+}
+
+html, body{
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+   
+    position: relative;
+}
+
+.footer{
+    // position: absolute;
+    width: 100%;
+    bottom: 0; left: 0; right: 0;
+}
+
+
+.content{
+    /* Le contenu de votre page va ici */
+     min-height: 71vh;
+    
+}
+.text-green-cnra{
+    color:#009118;
+}
+
+.bg-green-cnra{
+    background-color:#009118;
+}
+
+.border-green-cnra{
+    border-color:#009118;
+}
+
+.titles-container {
+    display: flex;
+     /* Aligne verticalement les titres */
+  }
+
+@font-face {
+    font-family: 'Avenir-Black';
+    src: url("../assets/font/Avenir/Avenir_Black/Avenir-Black.ttf") format('truetype')
+}
+body {
+	font-family: 'Avenir-Black', sans-serif;
+}
+
+
+  
+  .stepper {
+    font-family: var(--fnt);
+    font-size: var(--fnt-size);
+    position: relative;
+    counter-reset: step 0;
+    width: 100%;
+    margin: 2rem 0;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+  .stepper > .step {
+    position: relative;
+    counter-increment: step;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .stepper > .first-step::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 4px;
+    @apply bg-amber-300;
+    left: 222px;
+    top: 2.2rem;
+  }
+  .stepper > .midlle-step::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 4px;
+    @apply bg-amber-300;
+    left: 0;
+    top: 2.2rem;
+  }
+  .stepper > .end-step::before {
+    position: absolute;
+    content: "";
+    width: 79%;
+    height: 4px;
+    @apply bg-amber-300;
+    right: 222px;
+    top: 2.2rem;
+  }
+  .stepper > .step > .step-label {
+    position: relative;
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
+    @apply bg-amber-400 text-amber-900 font-bold;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0 auto;
+    font-size: 3.2rem;
+  }
+
+  .stepper > .step.active::before {
+    background: linear-gradient(to right, var(--bs-amber), var(--bs-amber));
+  }
+  .stepper > .step.active > .step-label {
+   @apply bg-amber-300 text-amber-900 font-bold;
+  }
+  .stepper > .step.completed::before {
+    @apply bg-amber-300;
+  }
+  .stepper > .step.completed > .step-label {
+    @apply bg-amber-300 text-amber-900 font-bold;
+  }
+  .stepper > .step > .step-description {
+    @apply text-amber-950  font-bold text-2xl;
+    margin-top: 0.5rem;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    text-align: center;
+  }
+  .stepper > .step.active > .step-description,
+  .stepper > .step.completed > .step-description {
+   @apply text-amber-950 text-2xl font-bold;
+  }
+  .stepper > .step.active > .step-description {
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 768px) {
+    .stepper > .step > .step-label {
+        font-size: 2.4rem;
+        width: 4rem;
+        height: 4rem;
+        line-height: 4rem;
+    }
+
+    .stepper > .step > .step-description {
+        font-size: 0.8rem !important;
+    }
+
+    .stepper > .first-step::before {
+        display: none;
+      }
+      .stepper > .midlle-step::before {
+        display: none;
+      }
+      .stepper > .end-step::before {
+        display: none;
+      }
+}
+
+@media screen and (max-width: 768px) {
+    .stepper > .step > .step-label {
+        font-size: 2.4rem;
+        width: 4rem;
+        height: 4rem;
+        line-height: 4rem;
+    }
+
+    .stepper > .step > .step-description {
+        font-size: 0.8rem !important;
+    }
+
+    .stepper > .first-step::before {
+        display: none;
+      }
+      .stepper > .midlle-step::before {
+        display: none;
+      }
+      .stepper > .end-step::before {
+        display: none;
+      }
+}
+
+/* Media query pour les écrans très larges */
+@media screen and (min-width: 1600px) {
+    .stepper > .first-step::before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 4px;
+        @apply bg-amber-300;
+        left: 222px;
+        top: 2.2rem;
+      }
+      .stepper > .midlle-step::before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 4px;
+        @apply bg-amber-300;
+        left: 0;
+        top: 2.2rem;
+      }
+      .stepper > .end-step::before {
+        position: absolute;
+        content: "";
+        width: 95% !important;
+        height: 4px;
+        @apply bg-amber-300;
+        right: 222px;
+        top: 2.2rem;
+      }
+}
+  
+ 

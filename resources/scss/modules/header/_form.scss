@@ -1,0 +1,123 @@
+
+.form-label {
+    @apply mb-2 block text-gray-800 select-none;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    @apply p-2 leading-normal block w-full border text-gray-800 bg-white font-sans rounded text-left appearance-none relative;
+
+    &:focus-within,
+    &:focus,
+    &.focus {
+        @apply outline-none border-teal-600;
+        box-shadow: 0 0 0 2px theme('colors.teal.600');
+    }
+
+    &::placeholder {
+        @apply text-gray-600 opacity-100;
+    }
+}
+
+.form-select {
+    @apply pr-6;
+
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAQCAYAAAAMJL+VAAAABGdBTUEAALGPC/xhBQAAAQtJREFUOBG1lEEOgjAQRalbGj2OG9caOACn4ALGtfEuHACiazceR1PWOH/CNA3aMiTaBDpt/7zPdBKy7M/DCL9pGkvxxVp7KsvyJftL5rZt1865M+Ucq6pyyF3hNcI7Cuu+728QYn/JQA5yKaempxuZmQngOwEaYx55nu+1lQh8GIatMGi+01NwBcEmhxBqK4nAPZJ78K0KKFAJmR3oPp8+Iwgob0Oa6+TLoeCvRx+mTUYf/FVBGTPRwDkfLxnaSrRwcH0FWhNOmrkWYbE2XEicqgSa1J0LQ+aPCuQgZiLnwewbGuz5MGoAhcIkCQcjaTBjMgtXGURMVHC1wcQEy0J+Zlj8bKAnY1/UzDe2dbAVqfXn6wAAAABJRU5ErkJggg==');
+    background-size: 0.7rem;
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+
+    &::-ms-expand {
+        @apply opacity-0;
+    }
+}
+
+.form-error {
+    @apply text-red-500 mt-2 text-sm;
+}
+
+.form-input.error,
+.form-textarea.error,
+.form-select.error {
+    @apply border-red-400;
+
+    &:focus {
+        box-shadow: 0 0 0 1px theme('colors.red.400');
+    }
+}
+
+.custom-checkbox-label input:checked + svg {
+    display: block !important;
+}
+
+.img-logo{
+        max-width: 60%;
+        height: auto;
+}
+
+.form-control {
+    @apply appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight;
+}
+
+
+.select2-container--default .select2-selection--single {
+    background-color: #fff !important;
+    border: 1px solid #aaa !important;
+    border-radius: 0px !important;
+    padding-top: 10px !important;
+    padding-left: 4px !important;
+    padding-bottom: 30px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444 !important;
+    line-height: 15px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    display: none !important;
+}
+
+.selectize-input, .selectize-input input {
+    color: #303030 !important;
+    font-family: inherit !important;
+    font-size: 10px !important;
+    /* line-height: 44px; */
+    font-smoothing: inherit !important;
+    border: 1px solid #aaa !important;
+    border-radius: 4px !important;
+   
+}
+
+.selectize-input.dropdown-active {
+    border-radius: 0px !important;
+}
+
+.selectize-control.multi .selectize-input [data-value] {
+    text-shadow: 0 1px 0 rgba(0,51,83,.3) !important;
+    border-radius: 0px !important;
+    @apply bg-amber-900 border-amber-900;
+    border: 1px solid #778801 !important;
+    background-image: linear-gradient(to bottom,rgb(69 26 3),rgb(69 26 3)) !important;
+    background-repeat: repeat-x !important;
+    box-shadow: 0 1px 0 rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.03) !important
+}
+
+.selectize-control.multi .selectize-input [data-value].active {
+    background-color: rgb(69 26 3) !important;
+    border: 1px solid rgb(69 26 3) !important;
+    background-image: linear-gradient(to bottom,rgb(69 26 3), rgb(69 26 3)) !important;
+    background-repeat: repeat-x !important;
+}
+
+.selectize-control.multi .selectize-input>div.active {
+    background: rgb(69 26 3) !important;
+    color: #fff !important;
+    border: 1px solid rgb(69 26 3) !important;
+}
+
+
+.bank-selectized{
+
+}

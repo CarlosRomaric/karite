@@ -1,0 +1,38 @@
+[
+  {
+    "region": "Région du Folon",
+    "departement": ["Kaniasso", "Minignan"]
+  },
+  {
+    "region": "Région du Bagoué",
+    "departement": ["Boundiali", "Kouto", "Tengréla"]
+  },
+  {
+    "region": "Région du Poro",
+    "departement": ["Dikodougou", "Korhogo", "M’Bengué", "Sinématiali"]
+  },
+  {
+    "region": "Région du Tchologo",
+    "departement": ["Ferkessédougou", "Kong", "Ouangolodougou"]
+  },
+  {
+    "region": "Région du Worodougou",
+    "departement": ["Kani", "Séguéla"]
+  },
+  {
+    "region": "Région du Hambol",
+    "departement": ["Dabakala", "Katiola", "Niakaramadougou"]
+  },
+  {
+    "region": "Région du Gbêkê",
+    "departement": ["Béoumi", "Botro", "Bouaké", "Sakassou"]
+  },
+  {
+    "region": "Région de Bounkani",
+    "departement": ["Bouna", "Doropo", "Nassian", "Téhini"]
+  },
+  {
+    "region": "Région du Gontougou",
+    "departement": ["Bondoukou", "Koun-Fao", "Sandégué", "Tanda", "Transua"]
+  }
+]

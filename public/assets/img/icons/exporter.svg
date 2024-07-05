@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+  <g id="Groupe_3236" data-name="Groupe 3236" transform="translate(-1706 -180)">
+    <rect id="Rectangle_72" data-name="Rectangle 72" width="25" height="25" transform="translate(1706 180)" fill="#fff"/>
+    <g id="excel" transform="translate(1706.992 180.992)">
+      <path id="Tracé_2330" data-name="Tracé 2330" d="M2093.854,2119.595v17.558l-10.439-1.81V2121.4Zm.5,2.027h6.932c.383,0,.457.076.457.457v12.589c0,.381-.074.457-.457.457h-6.932v-1.187H2097v-1.824h-2.646v-.547H2097v-1.825h-2.646v-.547H2097v-1.825h-2.646v-.547H2097V2125h-2.646v-.547H2097v-1.825h-2.646ZM2081,2140.051h23.047l0-23.051H2081Z" transform="translate(-2081 -2117)" fill="rgb(154, 52, 18)" fill-rule="evenodd"/>
+      <path id="Tracé_2331" data-name="Tracé 2331" d="M5362.028,5408.489l-.951,2.175-.739-2.043-1.189.052,1.181,2.979-1.33,2.913,1.168.087.938-2.1.872,2.216,1.344.074-1.457-3.207,1.395-3.24Zm7.909,8.822h3.011v-1.824h-3.011Zm0-2.371h3.011v-1.825h-3.011Zm0-2.372h3.011v-1.825h-3.011Zm0-4.743h3.011V5406h-3.011Zm0,2.371h3.011v-1.824h-3.011Z" transform="translate(-5353.393 -5400.374)" fill="rgb(154, 52, 18)" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

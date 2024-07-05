@@ -1,0 +1,23 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.bg-custom-white{
+    top: 137px;
+    left: 320px;
+    width: 200px;
+    height: 137px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 0;
+}
+
+.input{
+    @apply border shadow-inner py-2 px-3 text-gray-700 w-full;
+}
+
+.input:focus {
+    @apply shadow-outline;
+}
