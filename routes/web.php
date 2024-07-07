@@ -23,6 +23,7 @@ use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\ExportToExcelController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ImportViaExcelController;
+use App\Http\Controllers\SealedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,16 @@ Route::group(['middleware' => 'auth'], function() {
     
         Route::prefix('appli-mobile')->group(function() {
             Route::get('/', [AppMobileController::class,'index'])->name('app-mobile.index');
+        });
+
+        Route::prefix('scelles')->group(function() {
+            Route::get('/', [SealedController::class,'create'])->name('sealeds.create');
+            Route::get('distribution-de-scelles', [SealedController::class, 'sealed_agribusiness'])->name('sealeds.sealed_agribusiness');
+            Route::get('suivi-des-lots', [SealedController::class, 'index'])->name('sealeds.index');
+            Route::get('print/{lot_id}', [SealedController::class, 'print'])->name('sealeds.print');
+            
+            Route::post('store', [SealedController::class, 'store'])->name('sealeds.store');
+            Route::post('set-agribusinesse', [SealedController::class, 'set_agribusiness'])->name('sealeds.set_agribusiness');
         });
 
         Route::prefix('offers')->group(function(){
