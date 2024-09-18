@@ -10,6 +10,7 @@ use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\AgribusinessController;
+use App\Http\Controllers\API\CertificationController;
 use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\SynchronizationController;
 
@@ -116,11 +117,16 @@ Route::namespace('API')->name('api.')->group(function () {
         Route::get('/', [PurchaseController::class, 'index'])->name('index');
         Route::post('/store', [PurchaseController::class, 'store'])->name('store');
     });
+    
 
     /**
      * Synchronization routes
      */
     Route::prefix('synchronizations')->name('synchronizations.')->group(function () {
         Route::post('/store', [SynchronizationController::class, 'store'])->name('store');
+    });
+
+    Route::prefix('certification')->name('certification.')->group(function () {
+        Route::get('/', [CertificationController::class, 'index'])->name('index');
     });
 });

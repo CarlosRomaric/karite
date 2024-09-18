@@ -33,7 +33,7 @@
                 <div class="flex flex-col md:flex-row">
                     <!-- Partie gauche -->
                     <div class="w-full md:w-full px-4 md:px-0">
-                        <div class="bg-amber-100 pl-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 rounded-lg my-5 shadow-lg">
+                        <div class="bg-amber-100 pl-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 rounded-lg my-5 shadow-lg">
                             @if(auth()->user()->isTraceAgriAdmin() || auth()->user()->isPlateformAdmin())
                             <div class="card-amber">
                                 <p class="font-semibold">Nombre de Coopératives</p>
@@ -46,15 +46,16 @@
                                 <p class="stat">{{ $farmers->count() }}</p>
                             </div>
                             
-                            <div class="card-amber">
-                            <p class="font-semibold">Quantités de Beurre de karité Bio</p>
-                                <p class="stat">{{ $offers->count() }}</p>
+                            <div class="card-amber-final">
+                            <p class="font-semibold mb-2">Quantité de Beurre de karité</p>
+                                <!-- <ul> -->
+                                   
+                                    @foreach ($certifications as $certification)
+                                       <label>{{ $certification->name }}:</label> 0 ; 
+                                    @endforeach
+                                <!-- </ul> -->
                             </div>
                            
-                            <div class="card-amber-final">
-                                <p class="font-semibold">Quantités de Beurre de karité Ordinaire</p>
-                                <p class="stat">{{ $offers->count() }}</p>
-                            </div>
                             <!-- Zone de texte responsive -->
                             <!-- <div class="text-amber-800 py-5 max-w-full col-span-1 md:col-span-2 md:text-base">
                                 <p class="font-semibold text-base">Quantités de Beurres de Karités (BIO) </p>
@@ -142,7 +143,8 @@
     <script>
         //convertir le tableau PHO en tableau Javascript
         var regions = @json($regions);
-
+        var certifications = @json($certifications);
+            console.log(certifications)
         // Initialiser la carte
         var map = L.map('map').setView([7.539989, -5.547080], 6.5);
 
@@ -173,17 +175,30 @@
         regions.forEach(function(region) {
 
             var totalWeight = 0;
+            var certificationsList = '';
+            var pense = '';
 
             region.agribusinesses.forEach(function(agribusiness) {
                 if (agribusiness.offers && agribusiness.offers.length > 0) {
                     totalWeight += agribusiness.offers[0].total_weight || 0;
+                     // Ajouter les certifications à la liste
+                     agribusiness.offers.forEach(function(offer) {
+                        if (offer.certifications && offer.certifications.length > 0) {
+                            offer.certifications.forEach(function(certification) {
+                            pense +='test' + certification.name;
+                            certificationsList += '0 ' + certification.name + '<br>';
+                        });
+                      }
+                    });
                 }
             });
+            console.log(certificationsList);
 
             var marker = L.marker([region.latitude, region.longitude])
                           .bindPopup(
                             '<b>Region: </b>' + region.name + 
-                            '<br> <b>Quantité disponible: </b>'+(totalWeight/1000)+' (T)'
+                            '<br> <b>Quantité d\'amandes: </b>'+(totalWeight/1000)+' (T) <br>'+
+                            'certifications: ' + certificationsList
                             ); // supposant que 'name' est une propriété de region
             markerLayer.addLayer(marker);
         });

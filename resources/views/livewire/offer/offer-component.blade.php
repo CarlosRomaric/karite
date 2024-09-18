@@ -47,8 +47,8 @@
                                 <?php $i++ ?>
                                 <tr class="border-b border-t-2 border-amber-800 {{ $i % 2 !== 0 ? '' : 'bg-amber-100' }} dark:border-amber-900">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium" wire:key="{{ $offer->id }}">{{ $i }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->agribusiness->sigle }} <br> {{ $offer->agribusiness->departement->name }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->certification }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->agribusiness->sigle ?? '-' }} <br> {{ $offer->agribusiness->departement->name ?? '-' }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->certification->name }}</td>
                                     
                                     <td class="whitespace-nowrap px-6 py-4">{{ $offer->weight }}</td>
                                     

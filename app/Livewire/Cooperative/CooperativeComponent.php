@@ -11,6 +11,7 @@ use App\Models\Agribusiness;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule; 
 use App\Models\AgribuisinessSave;
+use App\Models\Certification;
 
 class CooperativeComponent extends Component
 {
@@ -18,7 +19,7 @@ class CooperativeComponent extends Component
 
     public $step = 1;
     // Propriétés pour l'étape 1
-    public $matricule, $denomination, $sigle, $departement_id, $headquaters,  $address, $certification, $dfe, $bank, $registre_commerce;
+    public $matricule, $denomination, $sigle, $departement_id, $headquaters,  $address, $certification_id, $dfe, $bank, $registre_commerce;
     public $number_sections, $number_unite_transformations, $logo;
     public $region_id="";
     public $departements = [];
@@ -38,7 +39,7 @@ class CooperativeComponent extends Component
             'departement_id'=>'required',
             'headquaters'=>'required',
            
-            'certification'=>'required',
+            'certification_id'=>'required',
             'dfe'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
             'bank'=>'required',
             'registre_commerce'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
@@ -73,7 +74,7 @@ class CooperativeComponent extends Component
         $messages = [
             'required'=>'ce champ est obligatoire',
             'image'=>'ce champ doit être une image',
-            'logo.mimes'=>'le fichier que vous devez uploader doit être de l\'un de ces types csv,xlsx,xlsl,xls'
+            'logo.mimes'=>'le fichier que vous devez uploader doit être de l\'un de ces types pdf,png,jpeg,jpg'
         ];
         
         return $messages;
@@ -119,7 +120,7 @@ class CooperativeComponent extends Component
                     'region_id'=>'required',
                     'departement_id'=>'required',
                     'headquaters'=>'required',
-                    'certification'=>'required',
+                    'certification_id'=>'required',
                     'dfe'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
                     'bank'=>'required',
                     'registre_commerce'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
@@ -169,7 +170,7 @@ class CooperativeComponent extends Component
         $agribusiness->headquaters= $this->headquaters;
        // $agribusiness->bank = json_encode($this->bank);
         $agribusiness->bank = $this->bank;
-        $agribusiness->certification = $this->certification;
+        $agribusiness->certification_id = $this->certification_id;
 
         $filenameRg = $this->registre_commerce->getClientOriginalName();
         $pathRg = 'public/registre_commerciale/'.trim($this->sigle);
@@ -232,7 +233,7 @@ class CooperativeComponent extends Component
         $this->sigle = '';
         $this->address='';
         $this->region_id='';
-        $this->certification='';
+        $this->certification_id='';
         $this->dfe='';
         $this->bank='';
         $this->registre_commerce='';
@@ -260,9 +261,11 @@ class CooperativeComponent extends Component
     public function render()
     {
         $regions= Region::all();
+        $certifications = Certification::all();
         $data = [
             'regions'=>$regions,
-            'departements'=>$this->departements
+            'departements'=>$this->departements,
+            'certifications'=>$certifications
         ];
         return view('livewire.cooperative.cooperative-component')->with($data);
     }

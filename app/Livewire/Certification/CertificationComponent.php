@@ -10,6 +10,7 @@ use Livewire\Attributes\Url;
 
 class CertificationComponent extends Component
 {
+    use WithPagination;
     public $name;
     public $certificationId;
 
@@ -71,6 +72,8 @@ class CertificationComponent extends Component
         $certification->name = $this->name;
         $certification->save();
 
+        $this->reset('name','certificationId');
+        $this->closeModal();
         session()->flash('message','Votre enregistement a été effectué avec success');
     }
 
@@ -92,7 +95,7 @@ class CertificationComponent extends Component
             $certification->update([
                 'name' => $this->name,
             ]);
-            session()->flash('message', 'le certification a été modifié avec success');
+            session()->flash('message', 'la certification a été modifié avec success');
             $this->closeModal();
             $this->reset('name','certificationId');
         }
@@ -102,10 +105,16 @@ class CertificationComponent extends Component
         $this->openModalDelete();
         $this->certificationId = $id;
     }
-    
-    public function resetInput(){
-        $this->name = '';
+
+    public function delete($id)
+    {
+        Certification::find($id)->delete();
+        session()->flash('message', 'la suppression de cet role a été effectué avec success');
+        $this->reset('name','certificationId');
+        $this->closeModalDelete();
     }
+    
+  
 
     public function resetSearch(){
         $this->search='';

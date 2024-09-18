@@ -22,8 +22,11 @@ class OfferComponent extends Component
 
     public function query(){
         
-        $query =  Offer::where('certification','like','%'.$this->search.'%')
-                        ->orWhere('type_packaging', 'like','%'.$this->search.'%')
+        $query =  Offer::with('certification')
+                        ->whereHas('certification', function($query){
+                            $query->where('name','like','%'.$this->search.'%');
+                        })
+                        ->where('type_packaging', 'like','%'.$this->search.'%')
                         ->paginate($this->selectedLimitPaginate);
         return $query;
     }

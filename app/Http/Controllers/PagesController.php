@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Certification;
 use App\Models\Region;
 use App\Models\Departement;
 use Illuminate\Support\Str;
@@ -14,7 +15,9 @@ class PagesController extends Controller
     }
 
     public function createCoop(){
+
         return view('pages.createCoop');
     }
+
 
 }

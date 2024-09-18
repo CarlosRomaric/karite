@@ -1,4 +1,7 @@
           
+@push('stylesheets')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
 
 <div class="">
 
@@ -138,21 +141,23 @@
                 <div class="w-1/2">
 
 
-                    <div class="mb-4 ">
+                    <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
                         Certification <b class="text-red-500">*</b>
                         </label>
-                        <select name="certification" wire:model="certification"  id="certification" class="form-control text-gray-700 text-sm font-bold mb-2">
+                        <select name="certification_id" wire:model="certification_id"  id="certification_id" class="form-control text-gray-700 text-sm font-bold mb-2">
                             <option value="">Choississez la certification</option>
-                            <option value="Bio">Bio</option>
-                            <option value="Ordinaire">Ordinaire</option>
+                           @foreach ($certifications as $certification)
+                            <option value="{{ $certification->id }}">{{ $certification->name }}</option>
+                           @endforeach
                         </select>
-                        @if($errors->has('certification'))
+                        @if($errors->has('certification_id'))
                                 <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('certification') }}</strong>
+                                    <strong>{{ $errors->first('certification_id') }}</strong>
                                 </div>
                         @endif 
                     </div>
+
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-1" for="matricule">
                         Banques <b class="text-red-500">*</b>
@@ -183,9 +188,9 @@
                             class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
                             type="file"
                             id="dfe" />
-                            @if($errors->has('certification'))
+                            @if($errors->has('dfe'))
                                 <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('certification') }}</strong>
+                                        <strong>{{ $errors->first('dfe') }}</strong>
                                 </div>
                             @endif
                     </div>
@@ -453,27 +458,42 @@
 </div>
 
 @push('javascript')
-<script>
-    function isNumber(event){
-                var charCode = (event.which) ? event.which : event.keyCode
-                if (charCode > 31 && (charCode < 48 || charCode > 57))
-                    return false;
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        function isNumber(event){
+                    var charCode = (event.which) ? event.which : event.keyCode
+                    if (charCode > 31 && (charCode < 48 || charCode > 57))
+                        return false;
+                    return true;
+                }
+        function isNumberKey(event) {
+            var charCode = (event.which) ? event.which : event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            } else {
+                var inputValue = event.target.value.replace(/\s/g, '');
+                var formattedValue = '';
+                for (var i = 0; i < inputValue.length; i += 2) {
+                    formattedValue += inputValue.substr(i, 2) + ' ';
+                }
+                event.target.value = formattedValue.trim();
                 return true;
             }
-    function isNumberKey(event) {
-        var charCode = (event.which) ? event.which : event.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        } else {
-            var inputValue = event.target.value.replace(/\s/g, '');
-            var formattedValue = '';
-            for (var i = 0; i < inputValue.length; i += 2) {
-                formattedValue += inputValue.substr(i, 2) + ' ';
-            }
-            event.target.value = formattedValue.trim();
-            return true;
         }
-    }
- 
-</script>
+        /*
+        $(document).ready(function () {
+
+            $('#certification_id').select2();
+            $('#certification_id').on('change', function (e) {
+                var data = $('#certification_id').select2("val");
+                @this.set('selected', data);
+            });
+        });*/
+    </script>
+
+
 @endpush

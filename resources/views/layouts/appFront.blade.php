@@ -26,10 +26,7 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
     />
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   
 
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
@@ -211,23 +208,9 @@
 
 @livewireScriptConfig
 @stack('javascript')
-<script type="text/javascript" src="{{ asset('js/tw-elements.umd.min.js') }}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-<script>
-    const { Tooltip, initTWE } = await import("tw-elements");
 
-    window.iniTWE = initTWE;
-    window.Tooltip = Tooltip;
-
-    initTWE({ Tooltip });
-    import {
-    Collapse,
-    Dropdown,
-    initTWE,
-    } from "tw-elements";
-
-initTWE({ Collapse, Dropdown });
-</script>
 
 
 </body>

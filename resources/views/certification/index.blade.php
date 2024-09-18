@@ -21,7 +21,7 @@
         </nav>
 
         <div class="pt-10">
-          
+                <livewire:certification.certification-component />
         </div>
 
 

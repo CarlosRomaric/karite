@@ -19,7 +19,7 @@ class OfferController extends BaseController
         $rules = [
             'qte'=>'required',
             'weight'=>'required',
-            'certification'=>'required',
+            'certification_id'=>'required',
             'selling_price'=>'required',
             'type_packaging'=>'required',
             'user_id'=>'required'
@@ -33,7 +33,7 @@ class OfferController extends BaseController
         $messages = [
             'weight.required'=>'la poids du produit est obligatoire',
             'qte.required'=>'la quantité du produit est obligatoire',
-            'certification.required'=>'le choix de la certification est obligatoire',
+            'certification_id.required'=>'le choix de la certification est obligatoire',
             'type_packaging.required'=>'le choix du type de conditionnement est obligatoire',
             'selling_price.required'=>'le prix unitaire est obligatoire',
             'user_id.required'=>'l\'identifiant de l\'utilisateur en cours est obligatoire'

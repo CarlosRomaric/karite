@@ -118,7 +118,16 @@ class FarmerController extends BaseController
 
     public function synchronisationFarmer(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'data' => 'required|array',
+        ], [
+            'data.required' => 'Les données sont requises',
+            'data.array' => 'Les données doivent être un tableau',
+        ]);
+    
+        if ($validator->fails()) {
+            return $this->sendError('Une erreur s\'est produite', $validator->errors());
+        }
     }
 
     public function update(Request $request,  Farmer $farmer){
@@ -136,7 +145,6 @@ class FarmerController extends BaseController
         }else{
             $user = Auth::user();
             $data = [
-                
                 'fullname'=>$request->fullname,
                 'picture'=>$request->file('picture')->store('public/farmers'),
                 'phone'=>$request->phone,
@@ -158,6 +166,14 @@ class FarmerController extends BaseController
         }
     }
 
+    public function getFarmerByRegions(Request $request)
+    {
+        return Farmer::query()
+        ->with('region')
+        ->where('region_id', $request->user()->region_id)
+        ->orderBy('created_at')
+        ->get();
+    }
 
 
     private function getFarmersByAgribusiness($request)

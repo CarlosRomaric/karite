@@ -13,4 +13,8 @@ class Offer extends Model
         return $this->belongsTo(Agribusiness::class);
     }
     
+    public function certification()
+    {
+        return $this->belongsTo(Certification::class);
+    }
 }

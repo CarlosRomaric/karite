@@ -8,6 +8,7 @@ use App\Models\Offer;
 use App\Models\Farmer;
 use App\Models\Region;
 use App\Models\Agribusiness;
+use App\Models\Certification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,8 +35,10 @@ class DashboardController extends Controller
         ->get();
         //dump($regions);
         $offers = Offer::orderBy('created_at','desc')->get();
+        $certifications = Certification::orderBy('created_at','DESC')->get();
+        
 
-        return view('dashboard.index', compact('farmers', 'agribusinesses', 'users', 'regions', 'offers'));
+        return view('dashboard.index', compact('farmers', 'agribusinesses', 'users', 'regions', 'offers','certifications'));
     }
     
 }
