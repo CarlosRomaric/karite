@@ -91,7 +91,7 @@
                     @endcanany
 
                     <li class="menu-hover my-6 {{ (request()->is('offers', 'offers*') || request()->is('orders', 'orders*')) ? 'active' : '' }} md:my-0 hover:h-full hover:active" id="offersDefaultButton" data-dropdown-toggle="dropdownOffers">
-                        <a href="#" class="menu-item">
+                        <a class="menu-item">
                             <img class="img-h " src="{{ asset('assets/img/icons/market.svg') }} " alt="marketIcons" >
                             <span for="" class="cursor-pointer text-base">Marchés</span>
                             <hr class="{{ ( request()->is('offers', 'offers*') || request()->is('orders', 'orders*')) ? 'active-div' : 'active-div-none' }}">
@@ -138,7 +138,7 @@
                     </li>  -->
 
                     <li class="menu-hover my-6 {{ (request()->is('users', 'users*') || request()->is('roles', 'roles*') || request()->is('permissions', 'permissions*') ) ? 'active' : '' }} md:my-0 hover:h-full hover:active" id="invitationDefaultButton" data-dropdown-toggle="dropdownInvitation">
-                        <a href="#" class="menu-item">
+                        <a class="menu-item">
                             <img class="img-h " src="{{ asset('assets/img/icons/UserP-1.svg') }} " alt="producteurIcons" >
                             <span for="" class="cursor-pointer text-base">Administration</span>
                             <hr class="{{ ( request()->is('users', 'users*') || request()->is('roles', 'roles*') || request()->is('permissions', 'permissions*') ) ? 'active-div' : 'active-div-none' }}">
@@ -169,12 +169,28 @@
                     </li>
                     
                    
-                    <li class="menu-hover my-6 {{ (request()->is('appli-mobile', 'appli-mobile*')) ? 'active' : '' }} md:my-0 hover:h-full hover:active ">
-                        <a href="{{ route('app-mobile.index') }}" class="menu-item" wire:navigate.hover>
-                            <img class="img-h " src="{{ asset('assets/img/icons/barcode.svg') }} " alt="codeQrIcons" >
+                    <li class="menu-hover my-6 {{ (request()->is('appli-mobile', 'appli-mobile*')) ? 'active' : '' }} md:my-0 hover:h-full hover:active "  data-dropdown-toggle="dropdownQR">
+                        <a class="menu-item">
+                            <img class="img-h " src="{{ asset('assets/img/qr-code.png') }} " alt="codeQrIcons" >
                             <span for="" class="cursor-pointer text-base">QR code</span>
                             <hr class="{{ (request()->is('appli-mobile', 'appli-mobile*')) ? 'active-div' : 'active-div-none' }}">
                         </a>
+                        <div id="dropdownQR" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="text-sm  text-gray-700 dark:text-gray-200" aria-labelledby="offersDefaultButton">
+                                <li>
+                                    <a href="{{ route('app-mobile.index') }}" class="block px-4 py-2 border-b hover:border-gray-100 hover:rounded-t-lg hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white"  wire:navigate.hover>Application mobile</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sealeds.create') }}" class="block px-4 py-2 border-b hover:border-gray-100 hover:rounded-t-lg hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white"  wire:navigate.hover>Création de scellés</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sealeds.sealed_agribusiness') }}" class="block px-4 py-2 border-b hover:border-gray-100 hover:rounded-t-lg hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white"  wire:navigate.hover>Distribution de scellés</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sealeds.index') }}" class="block px-4 py-2 border-b hover:border-gray-100 hover:rounded-t-lg hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white"  wire:navigate.hover>Suivie de scellés</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 
                     
