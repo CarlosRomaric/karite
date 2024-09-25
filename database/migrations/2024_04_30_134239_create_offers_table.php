@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('selling_price')->nullable();
             $table->string('qte')->nullable();
             $table->string('weight')->nullable();
-            $table->string('type_packaging')->nullable();
-            
+            $table->uuid('type_package_id')->index()->nullable();
             $table->uuid('agribusiness_id');
             $table->uuid('user_id');
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('agribusiness_id')->references('id')->on('agribusinesses');
             

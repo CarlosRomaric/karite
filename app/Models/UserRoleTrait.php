@@ -111,6 +111,15 @@ trait UserRoleTrait
         return self::hasRole('MOBILE');
     }
 
+     /**
+     * @return bool
+     */
+    public function isAgentCoop()
+    {
+        return self::hasRole('AGENT COOPERATIVE');
+    }
+
+    
     public function isSupervisorAgribusiness()
     {
         return self::hasRole('SUPERVISEUR COOPERATIVE');

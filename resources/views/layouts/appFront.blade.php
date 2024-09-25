@@ -75,6 +75,8 @@
 
                         <li class="mb-4 ps-2 lg:mb-0 lg:pe-1 lg:ps-0" data-twe-nav-link-ref>
                             <a class="p-0 text-black transition duration-200 hover:text-amber-300 hover:ease-in-out focus:text-black/80 active:text-amber-200 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2" href="{{ route('pages.acceuil') }}#advantage">Avantages</a>
+                            <a class="p-0 text-black transition duration-200 hover:text-amber-300 hover:ease-in-out focus:text-black/80 active:text-amber-200 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2" href="{{ route('pages.offres') }}">Offres</a>
+                            <a class="p-0 text-black transition duration-200 hover:text-amber-300 hover:ease-in-out focus:text-black/80 active:text-amber-200 motion-reduce:transition-none dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 dark:active:text-white/80 lg:px-2" href="{{ asset('assets/docs/Plaquette_Karite_pour_coopeerative.pdf')  }}" target="_blank">Fiche de renseignement</a>
                         </li>
                     </ul>
                 </div>
@@ -142,8 +144,8 @@
                             <h1 class="font-bold text-xl py-5">Liens Utiles</h1>
                             <ul>
                                 <li class="py-2 text-gray-200/50"><a href="{{ route('pages.acceuil') }}" class=""></a>Acceuil</li>
-                                <li class="py-2 text-gray-200/50"><a href="#" class=""></a>A propos</li>
-                                <li class="py-2 text-gray-200/50"><a href="#" class=""></a>Avantages</li>
+                                <li class="py-2 text-gray-200/50"><a href="{{ route('pages.acceuil') }}#advantage" class=""></a>A propos</li>
+                                <li class="py-2 text-gray-200/50"><a href="{{ route('pages.acceuil') }}#advantage" class=""></a>Avantages</li>
                             </ul>
                        </p>
                     </div>
@@ -172,7 +174,7 @@
                                     </g>
                                 </svg>
 
-                                    (+225) 05 55 55 12 12</li>
+                                    (+225) 01 01 93 58 48</li>
                                 <li class="py-2 text-gray-200/50  titles-container">
                                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="13.575" height="18.566" viewBox="0 0 13.575 18.566">
                                     <g id="placeholder" transform="translate(-68.817)">
@@ -181,7 +183,7 @@
                                         </g>
                                     </g>
                                 </svg>
-                                    1600 Amphitheatre Parkway Mountain View, CA 94043 US</li>
+                                    Cocody, Angré Papayer</li>
                             </ul>
                     </div>
                     <div class="flex-1 text-center md:text-left">

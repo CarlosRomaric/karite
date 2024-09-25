@@ -23,7 +23,7 @@ class CreateAgribusinessesTable extends Migration
             $table->uuid('departement_id')->nullable();
             $table->string('headquaters')->nullable();
             $table->string('bank')->nullable();
-            $table->string('certification')->nullable();
+            $table->uuid('certification_id')->nullable()->index();
             $table->string('registre_commerce')->nullable();
             $table->string('dfe')->nullable();
             $table->string('number_sections')->nullable();

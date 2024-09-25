@@ -134,14 +134,14 @@ class CooperativeComponent extends Component
                 $this->validate([
                     'firstname_pca'=>'required',
                     'lastname_pca'=>'required',
-                    'phone_pca'=>'required',
+                    'phone_pca'=>'required|exists:users,phone',
                     'email_pca'=>'email',
                     'photo_pca'=>'image|max:2048',
                 
                     'firstname_sup'=>'required',
                     'lastname_sup'=>'required',
-                    'phone_sup'=>'required',
-                    'email_sup'=>'email',
+                    'phone_sup'=>'required|exists:users,phone',
+                    'email_sup'=>'email|exists:users,email',
                     'photo_sup'=>'image|max:2048',
                 ]);
                 $this->nextStep();
@@ -174,11 +174,11 @@ class CooperativeComponent extends Component
 
         $filenameRg = $this->registre_commerce->getClientOriginalName();
         $pathRg = 'public/registre_commerciale/'.trim($this->sigle);
-        $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg);
+        $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg,'public');
 
         $filenameDfe = $this->dfe->getClientOriginalName();
         $pathDfe = 'public/dfe/'.trim($this->sigle);
-        $agribusiness->dfe = $this->dfe->storeAs($pathDfe, $filenameDfe);
+        $agribusiness->dfe = $this->dfe->storeAs($pathDfe, $filenameDfe, 'public');
         $agribusiness->number_sections = $this->number_sections;
         $agribusiness->number_unite_transformations = $this->number_unite_transformations;
 
@@ -218,10 +218,10 @@ class CooperativeComponent extends Component
         $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
         $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup);
       
-     
         $sup->job = 'SUPERVISEUR';
         $sup->status = 0;
         $sup->save();
+
         $sup->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
         $this->resetInput();
         session()->flash('message','votre demande d\'inscription de cooperative a bien été enregistré ');

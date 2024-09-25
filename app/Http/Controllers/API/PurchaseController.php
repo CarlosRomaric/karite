@@ -19,11 +19,10 @@ class PurchaseController extends BaseController
         $rules = [
             'qte'=>'required',
             'weight'=>'required',
-            'certification'=>'required',
+            'certification_id'=>'required',
             'selling_price'=>'required',
-            'type_packaging'=>'required',
+            'type_package_id'=>'required',
             'farmer_id'=>'required',
-            'user_id'=>'required',
             'agribusiness_id'=>'required'
         ];
 
@@ -35,8 +34,8 @@ class PurchaseController extends BaseController
         $messages = [
             'weight.required'=>'la poids du produit est obligatoire',
             'qte.required'=>'la quantité du produit est obligatoire',
-            'certification.required'=>'le choix de la certification est obligatoire',
-            'type_packaging.required'=>'le choix du type de conditionnement est obligatoire',
+            'certification_id.required'=>'le choix de la certification est obligatoire',
+            'type_package_id.required'=>'le choix du type de conditionnement est obligatoire',
             'selling_price.required'=>'le prix unitaire est obligatoire',
             'user_id.required'=>'l\'identifiant de l\'utilisateur en cours est obligatoire',
             'farmer_id.required'=>'l\'identifiant du producteur  est obligatoire',
@@ -65,6 +64,7 @@ class PurchaseController extends BaseController
         }else{
            
             $data = $request->all();
+            $data['user_id']=auth()->user()->id;
             $purchase = Purchase::create($data);
             $purchase->amount = $purchase->qte * $purchase->selling_price;
             $purchase->save();

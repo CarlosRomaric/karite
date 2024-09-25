@@ -13,6 +13,7 @@ use App\Http\Controllers\API\AgribusinessController;
 use App\Http\Controllers\API\CertificationController;
 use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\SynchronizationController;
+use App\Http\Controllers\API\TypePackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,7 @@ Route::namespace('API')->name('api.')->group(function () {
     Route::prefix('offers')->name('offers.')->group(function () {
         Route::get('/', [OfferController::class, 'index'])->name('index');
         Route::post('/store', [OfferController::class, 'store'])->name('store');
+        Route::post('/synchronisation', [OfferController::class, 'synchronisation'])->name('synchronisation');
     });
 
      /**
@@ -117,6 +119,15 @@ Route::namespace('API')->name('api.')->group(function () {
         Route::get('/', [PurchaseController::class, 'index'])->name('index');
         Route::post('/store', [PurchaseController::class, 'store'])->name('store');
     });
+
+    /**
+     * Type de package
+     */
+
+     Route::prefix('type_packages')->name('type_packages.')->group(function(){
+        Route::get('/',[TypePackageController::class,'index'])->name('index');
+        Route::get('/store',[TypePackageController::class,'store'])->name('store');
+     });
     
 
     /**

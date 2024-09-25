@@ -26,9 +26,13 @@ class OfferComponent extends Component
                         ->whereHas('certification', function($query){
                             $query->where('name','like','%'.$this->search.'%');
                         })
-                        ->where('type_packaging', 'like','%'.$this->search.'%')
                         ->paginate($this->selectedLimitPaginate);
         return $query;
+    }
+
+    public function demande($offer_id)
+    {
+        return redirect(route('pages.order',['offerId'=>$offer_id]));
     }
 
     public function render()

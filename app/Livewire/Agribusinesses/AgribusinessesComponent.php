@@ -323,9 +323,7 @@ class AgribusinessesComponent extends Component
             'headquaters'=>'required',
             'address'=>'required',
             'certification'=>'required',
-            
             'bank'=>'required',
-            
             'number_sections'=>'required|numeric',
             'number_unite_transformations'=>'required|numeric',
         ];
@@ -390,10 +388,15 @@ class AgribusinessesComponent extends Component
 
     public function delete($id)
     {
-        Agribusiness::find($id)->delete();
-        session()->flash('message', 'la suppression de cette coopérative a été effectué avec success');
-        $this->reset('name','acronym','address','person_responsible_name','person_responsible_phone','agribusinessId');
-        $this->closeModalDelete();
+        $agribusiness = Agribusiness::find($id);
+        if ($agribusiness) {
+            $agribusiness->delete(); // Soft delete
+            session()->flash('message', 'La suppression de cette coopérative a été effectuée avec succès');
+            $this->reset('denomination', 'acronym', 'address', 'person_responsible_name', 'person_responsible_phone', 'agribusinessId');
+            $this->closeModalDelete();
+        } else {
+            session()->flash('error', 'Coopérative introuvable');
+        }
     }
 
     public function refreshAgribusinessShow(){

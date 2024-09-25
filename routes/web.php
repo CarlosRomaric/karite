@@ -43,7 +43,9 @@ Route::get('/welcome', function () {
 Route::group(['middleware' => 'guest'], function() {
     Route::get('/', [PagesController::class,'index'])->name('pages.acceuil');
     Route::get('/inscription', [PagesController::class,'createCoop'])->name('pages.createCoop');
+    Route::get('/offres', [PagesController::class,'offres'])->name('pages.offres');
     Route::get('/connexion', [AuthController::class, 'showLoginForm'])->name('auth.showLoginForm');
+    Route::get('/pages/orders/{offerId}',[OrderController::class, 'create'])->name('pages.order');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
     Route::get('/login-refonte', function () {
         return view('auth.login-refonte');
@@ -52,6 +54,7 @@ Route::group(['middleware' => 'guest'], function() {
     Route::post('restore', [AuthController::class, 'restore'])->name('auth.restore');
     Route::get('password-reset', [ResetPasswordController::class, 'passwordReset'])->name('users.password-reset.form');
     Route::post('password-reset', [ResetPasswordController::class, 'changePassword'])->name('users.password-reset');
+
 });
 
 Route::group(['middleware' => 'auth'], function() {

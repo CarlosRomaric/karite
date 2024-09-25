@@ -23,12 +23,6 @@ class UserController extends Controller
     {
         $this->authorize('ADMIN USER LIST');
 
-        $users = User::with('agribusiness', 'roles')
-            ->retrievingByUsersType()
-            ->orderBy('fullname')
-            ->filter($request->only('search'))
-            ->paginate();
-
         return view('users.index');
     }
 

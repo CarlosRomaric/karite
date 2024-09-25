@@ -7,13 +7,14 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\Agribusiness;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 class UserComponent extends Component
 {
     use WithPagination;
-    public $fullname, $username, $phone, $password, $password_confirmation, $role_id; 
+    public $fullname, $username, $phone, $password, $password_confirmation, $role_id, $agribusiness_id; 
     public $userId;
     #[Url] 
     public $search = '';
@@ -23,35 +24,52 @@ class UserComponent extends Component
 
     public function rules()
     {
-        return [
-            'fullname' => 'required|string',
-            'username' => 'required|string|unique:users',
-            'phone' => 'required|string|unique:users',
+        $data = [
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|unique:users,username|max:255',
+            'phone' => 'required|string|unique:users,phone|max:15',
             'password' => 'required|min:4|same:password_confirmation',
             'password_confirmation' => 'required|min:4|same:password',
-            'role_id' => 'required|exists:roles,id'
+            'role_id' => 'required|exists:roles,id',
+            'agribusiness_id' => 'required|exists:agribusinesses,id'
+        ];
+
+        return $data;
+
+
+    }
+
+    public function updateRules($userId)
+    {
+        return [
+            'fullname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $userId,
+            'phone' => 'required|string|max:15|unique:users,phone,' . $userId,
+            'password' => 'nullable|min:4|same:password_confirmation',
+            'password_confirmation' => 'nullable|min:4|same:password',
+            'role_id' => 'required|exists:roles,id',
+            'agribusiness_id' => 'required|exists:agribusinesses,id'
         ];
     }
 
-    public function messages():array
+    public function messages(): array
     {
-        $messages= [
-            'fullname.required' => 'Le nom et prénoms de l\'utilisateur est obligatoire',
-            'fullname.string' => 'Le nom et prénoms de l\'utilisateur doît être une chaine de caractères',
-            'username.required'=>'le nom d\'utilisateur doit être obligatoire',
-            'phone.required'=>'le contact est obligatoire',
-            'phone.unique'=>'cet contact appartient déjà a un autre utilisateur',
-            'password.required'=>'le mot de passe doit être obligatoire',
-            'password.min'=>'le mot de passe doit contenir au minimum 4 caractères',
-            'pasword.same'=>'le mot de passe et le mot de passe de confirmation doivent être conforme',
-            'password_confirmation.required'=>'le mot de passe de confirmation est obligatoire',
-            'password_confirmation.min'=>'le mot de passe de confirmation doit contenir au minimum 4 caractères',
-            'password_confirmation.same'=>'le mot de passe et le mot de passe de confirmation doivent être conforme',
-            'role_id.required'=>'le role de l\'utilisateur est obligatoire',
-            'role_id.exists'=>'l\'utilisateur a déjà ce role'
+        return [
+            'fullname.required' => 'Le nom et prénoms est obligatoire.',
+            'fullname.string' => 'Le nom et prénoms doit être une chaîne de caractères.',
+            'username.required' => 'Le nom d\'utilisateur est obligatoire.',
+            'username.unique' => 'Ce nom d\'utilisateur est déjà pris.',
+            'phone.required' => 'Le numéro de téléphone est obligatoire.',
+            'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
+            'password.required' => 'Le mot de passe est obligatoire.',
+            'password.min' => 'Le mot de passe doit contenir au moins 4 caractères.',
+            'password.same' => 'Les mots de passe ne correspondent pas.',
+            'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire.',
+            'role_id.required' => 'Le rôle de l\'utilisateur est obligatoire.',
+            'role_id.exists' => 'Le rôle sélectionné n\'existe pas.',
+            'agribusiness_id.required' => 'La coopérative est obligatoire.',
+            'agribusiness_id.exists' => 'La coopérative sélectionnée n\'existe pas.'
         ];
-        
-        return $messages;
     }
 
     public function __construct()
@@ -61,7 +79,7 @@ class UserComponent extends Component
     }
 
     public function create(){
-        $this->reset('fullname','username','phone','password','password_confirmation','role_id','userId');
+        $this->reset('fullname','username','phone','password','password_confirmation','role_id','userId','agribusiness_id');
         $this->openModal();
     }
 
@@ -82,11 +100,13 @@ class UserComponent extends Component
     }
 
     public function saveUser(){
+        $this->validate();
         $user = New User();
         $user->fullname = $this->fullname;
         $user->username = $this->username;
         $user->phone = $this->phone;
-        $user->password =  bcrypt($this->password);
+        $user->password =  Hash::make($this->password);
+        $user->agribusiness_id = $this->agribusiness_id;
         $user->save();
 
         $user->roles()->sync($this->role_id);
@@ -104,25 +124,38 @@ class UserComponent extends Component
         $this->userId = $id;
         $this->fullname = $user->fullname ;
         $this->username = $user->username;
+        $this->agribusiness_id = $user->agribusiness_id;
         $this->phone = $user->phone;
-       
+        
     }
 
     public function update()
     {
         $this->authorize('ADMIN USER UPDATE');
+        $this->validate($this->updateRules($this->userId));
 
+        dd('Validation réussie');
+       
         if ($this->userId) {
+
             $user =User::findOrFail($this->userId);
-            $user->update([
-                'fullname' => $this->fullname,
-                'username' => $this->username,
-                'phone' => $this->phone,
-            ]);
+            $user->fullname = $this->fullname;
+            $user->username = $this->username;
+
+            $user->phone = $this->phone;
+            if ($this->password) {
+                $user->password = Hash::make($this->password);
+            }
+            $user->agribusiness_id = $this->agribusiness_id;
+            
+            dd($user);
+            $user->save();
+            // $user->roles()->sync($this->role_id);
 
             session()->flash('message', 'l\'utilisateur a été modifié avec success');
+            $this->reset('fullname','username','phone','userId','agribusiness_id');
             $this->closeModal();
-            $this->reset('fullname','username','phone','userId');
+           
         }
     }
 
@@ -134,8 +167,14 @@ class UserComponent extends Component
     public function delete($id)
     {
         $this->authorize('ADMIN USER DELETE');
+        
+        $user = User::find($id);
+         // Supprimer les relations dans la table pivot 'role_user'
+        $user->roles()->detach();
 
-        User::find($id)->delete();
+        // Ensuite, supprimer l'utilisateur
+        $user->delete();
+
         session()->flash('message', 'la suppression de cet role a été effectué avec success');
         $this->reset('fullname','username','phone','password','password_confirmation','role_id','userId');
         $this->closeModalDelete();
@@ -174,7 +213,8 @@ class UserComponent extends Component
 
     public function render()
     {
-        $roles = Role::retrievingByUsersType()->get();
+        $roles = Role::orderBy('created_at')->get();
+        
         $agribusinesses = Agribusiness::retrievingByUsersType()->get();
         return view('livewire.users.user-component',[
             'users' => $this->query(),

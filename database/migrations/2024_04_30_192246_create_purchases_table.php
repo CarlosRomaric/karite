@@ -14,18 +14,20 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('weight')->nullable();
-            $table->string('qte')->nullable();
-            $table->string('certification')->nullable();
-            $table->string('type_packaging')->nullable();
-            $table->string('type_achat')->nullable();
+            $table->string('quantity')->nullable();
+           
+            $table->string('type_purchase')->nullable();
             $table->string('amount')->nullable();
             $table->uuid('farmer_id');
             $table->uuid('agribusiness_id');
             $table->uuid('user_id');
+            $table->uuid('certification_id')->nullable();
+            $table->uuid('type_package_id')->nullable();
 
             $table->foreign('farmer_id')->references('id')->on('farmers');
             $table->foreign('agribusiness_id')->references('id')->on('agribusinesses');
             $table->foreign('user_id')->references('id')->on('users');
+           
 
             $table->timestamps();
         });

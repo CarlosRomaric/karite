@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_packages', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->timestamps();
+        Schema::table('agribusinesses', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_packages');
+        Schema::table('agribusinesses', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

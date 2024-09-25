@@ -22,15 +22,19 @@ class AuthController extends BaseController
         $this->messageSender = $messageSender;
     }
 
+
     public function index(){
-        $user = User::where('id',Auth::user()->id)
-                      ->with(['agribusiness' => function($query){
-                        $query->select('id','denomination','sigle','matricule');
-                      }])
-                      ->first();
-        //dd($user);
-        $success['user'] = collect($user)->except(['created_at','updated_at']);
-        return $this->sendResponse($success, 'Connexion effectuer avec success.');
+        if (!Auth::guard('api')->check()) {
+            // Retourner une réponse avec un message d'erreur
+            return response()->json(['error' => 'Non autorisé. Le token est invalide.'], 401);
+        }else{
+            $this->middleware('auth:api');
+        }
+        
+        $user = Auth::user();
+       
+        $success['user'] = collect($user)->except(['created_at','updated_at','agribusiness_id'])->toArray();
+        return $this->sendResponse($success, 'utilisateur connecté en ce moment.');
     }
 
     public function login(LoginRequest $request){
@@ -39,7 +43,7 @@ class AuthController extends BaseController
         if(Auth::attempt($credentials)){ 
            
             $user = $request->user(); 
-            if($user->isMobile()==true || $user->isSupervisorAgribusiness()==true){
+            if($user->isMobile()==true || $user->isSupervisorAgribusiness()==true || $user->isAgentCoop()){
                 $tokenResult =  $user->createToken('Karite Personal Access Client');
                 $success['access_token'] = $tokenResult->accessToken; 
                 $success['token_type']='Bearer';

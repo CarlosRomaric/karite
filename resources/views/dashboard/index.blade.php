@@ -48,7 +48,7 @@
                             
                             <div class="card-amber-final">
                             <p class="font-semibold mb-2">Quantité de Beurre de karité</p>
-                                <!-- <ul> -->
+                                
                                    
                                     @foreach ($certifications as $certification)
                                        <label>{{ $certification->name }}:</label> 0 ; 

@@ -19,5 +19,10 @@ class PagesController extends Controller
         return view('pages.createCoop');
     }
 
+    public function offres(){
+        return view('pages.offres');
+    }
+
+   
 
 }

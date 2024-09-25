@@ -23,6 +23,8 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
                 </svg>
                 <h2 class="text-2xl font-bold mb-4">{{ $userId ? 'Modification d\' utilisateur' : 'Creation d\' utilisateur' }}</h2>
+                <br>
+                
                 <form wire:submit.prevent="{{ $userId ? 'update':'saveUser' }} ">
                         
                 <div class="flex gray-400 mb-6">
@@ -119,6 +121,7 @@
                             Sélectionner le rôle
                         </label>
                         <div class="relative">
+                            
                             <select class="block appearance-none w-full bg-gray-200 border border-gray-200
                             text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white
                              focus:border-gray-500 {{ $errors->has('role_id') ? ' border-red-500' : '' }}" id="role_id" wire:model="role_id" name="role_id">

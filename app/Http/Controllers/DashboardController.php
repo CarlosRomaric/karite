@@ -29,8 +29,8 @@ class DashboardController extends Controller
         $farmers = Farmer::retrievingByUsersType()->get();
         $agribusinesses = Agribusiness::orderBy('denomination')->paginate(10);
         $regions = Region::with(['agribusinesses.offers' => function ($query) {
-            $query->select('agribusiness_id', 'certification', DB::raw('SUM(weight) as total_weight'))
-                  ->groupBy('agribusiness_id','certification');
+            $query->select('agribusiness_id', 'certification_id', DB::raw('SUM(weight) as total_weight'))
+                  ->groupBy('agribusiness_id','certification_id');
         }])
         ->get();
         //dump($regions);

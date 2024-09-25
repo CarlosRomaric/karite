@@ -75,7 +75,7 @@ class PermissionComponent extends Component
 
         session()->flash('message','Votre enregistement a été effectué avec success');
         $this->resetInput();
-        $this->refreshPermissionShow();
+       // $this->refreshPermissionShow();
         $this->closeModal();
         //$this->showModal = false;
         //$this->dispatch('close-modal');
