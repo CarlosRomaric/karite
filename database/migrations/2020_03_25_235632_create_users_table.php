@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->unique();
             $table->string('email')->unique()->nullable();
             $table->uuid('agribusiness_id')->nullable();
-            $table->foreign('agribusiness_id')->references('id')->on('agribusinesses');
+           
             $table->string('password');
             $table->string('picture')->nullable();
             $table->string('job')->nullable();

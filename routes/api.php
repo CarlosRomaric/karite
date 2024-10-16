@@ -3,17 +3,20 @@
 use App\Models\Agribusiness;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ParcController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\ParcsController;
 use App\Http\Controllers\API\FarmerController;
 use App\Http\Controllers\API\RegionController;
+use App\Http\Controllers\API\SealedController;
+use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
+use App\Http\Controllers\API\TypePackageController;
 use App\Http\Controllers\API\AgribusinessController;
 use App\Http\Controllers\API\CertificationController;
-use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\SynchronizationController;
-use App\Http\Controllers\API\TypePackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,8 +103,20 @@ Route::namespace('API')->name('api.')->group(function () {
      */
     Route::prefix('farmers')->name('farmers.')->group(function () {
         Route::get('/', [FarmerController::class, 'index'])->name('index');
+        Route::post('/getFarmerByPhone', [FarmerController::class, 'getFarmerByPhone'])->name('getFarmerByPhone');
         Route::post('/store', [FarmerController::class, 'store'])->name('store');
+        Route::post('/update', [FarmerController::class, 'update'])->name('update');
+        Route::post('/updatePicture', [FarmerController::class, 'updatePicture'])->name('updatePicture');
     });
+
+    /**
+     * Parcs- Route
+     */
+
+     Route::prefix('parcs')->name('parcs.')->group(function(){
+        Route::get('/',[ParcController::class,'index'])->name('index');
+        Route::post('/store',[ParcController::class, 'store'])->name('store');
+     });
 
     /**
      * Offers routes
@@ -110,6 +125,7 @@ Route::namespace('API')->name('api.')->group(function () {
         Route::get('/', [OfferController::class, 'index'])->name('index');
         Route::post('/store', [OfferController::class, 'store'])->name('store');
         Route::post('/synchronisation', [OfferController::class, 'synchronisation'])->name('synchronisation');
+        Route::post('/scan', [OfferController::class, 'scan'])->name('scan');
     });
 
      /**
@@ -139,5 +155,10 @@ Route::namespace('API')->name('api.')->group(function () {
 
     Route::prefix('certification')->name('certification.')->group(function () {
         Route::get('/', [CertificationController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('sealeds')->name('sealeds.')->group(function(){
+        Route::get('/', [SealedController::class, 'index'])->name('index');
+        Route::post('/scan', [SealedController::class, 'scan'])->name('scan');
     });
 });

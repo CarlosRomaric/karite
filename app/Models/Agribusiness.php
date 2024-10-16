@@ -49,5 +49,10 @@ class Agribusiness extends Model
         return $this->hasMany(Offer::class);
     }
 
+    public function lots()
+    {
+        return $this->hasMany(Lot::class);
+    }
+
 
 }

@@ -235,7 +235,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="dfe" >
-                                DFE :<a href="{{ asset('storage/'.$doc_dfe) }}" target="_blank" class="text-amber-600">Voir</a>
+                                DFE :<a href="{{ asset($doc_dfe) }}" target="_blank" class="text-amber-600">Voir</a>
                             </label>
                             <input
                             wire:model="dfe"
@@ -258,7 +258,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="departement_id" >
-                                Registre de commerce :<a href="{{ asset('storage/'.$doc_registre_commerce) }}" target="_blank" class="text-amber-600">Voir</a>
+                                Registre de commerce :<a href="{{ asset($doc_registre_commerce) }}" target="_blank" class="text-amber-600">Voir</a>
                             </label>
                             <input
                             wire:model="registre_commerce"
@@ -416,7 +416,7 @@
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                Registre de commerce : <a href="{{ asset('storage/'.$registre_commerce) }}" target="_blank" class="text-amber-600">Voir</a>
+                                Registre de commerce : <a href="{{ asset($registre_commerce) }}" target="_blank" class="text-amber-600">Voir</a>
                             </label>
 
                             
@@ -426,7 +426,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                DFE : <a href="{{ asset('storage/'.$dfe) }}" target="_blank" class="text-amber-600">Voir</a>
+                                DFE : <a href="{{ asset($dfe) }}" target="_blank" class="text-amber-600">Voir</a>
                             </label>
                             
                         </div>
@@ -470,7 +470,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Photo : <a href="{{ asset('storage/'.$photo_pca) }}" target="_blank" class="text-amber-600">Voir</a>
+                                Photo : <a href="{{ asset($photo_pca) }}" target="_blank" class="text-amber-600">Voir</a>
                             </label>
                             
                         </div>
@@ -513,7 +513,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Photo : <a href="{{ asset('storage/'.$photo_sup) }}" class="text-amber-600" target="_blank">Voir</a>
+                                Photo : <a href="{{ asset($photo_sup) }}" class="text-amber-600" target="_blank">Voir</a>
                             </label>
                             
                         </div>

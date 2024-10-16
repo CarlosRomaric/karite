@@ -1,6 +1,6 @@
 
 @extends('layouts.appFront')
-@section('title') - Inscription des cooperatives @endsection
+@section('title') - Offres des coopératives @endsection
 @push('stylesheet')
    <style>
             .web-safe {
@@ -95,7 +95,7 @@
         <div class="grid place-items-center">
             <div class="titles-container grid place-items-center">
                 <img src="{{ asset('assets/img/circle-icons.png') }}" alt="">
-                <h1 class="text-3xl uppercase font-bold text-amber-950">Liste des offres de Cooperative</h1>
+                <h1 class="text-3xl uppercase font-bold text-amber-950">Liste des offres de Beurre de karité des Cooperative</h1>
             </div>
 
             

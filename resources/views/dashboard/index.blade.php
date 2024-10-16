@@ -42,8 +42,8 @@
                             @endif
                             <!-- Cartes de statistiques -->
                             <div class="card-amber">
-                                <p class="font-semibold">Quantité d'amande</p>
-                                <p class="stat">{{ $farmers->count() }}</p>
+                                <p class="font-semibold">Quantité d'amandes</p>
+                                <p class="stat">{{ $qtePurchases }} (T)</p>
                             </div>
                             
                             <div class="card-amber-final">

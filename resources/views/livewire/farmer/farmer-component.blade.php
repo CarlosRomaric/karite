@@ -19,17 +19,17 @@
             <div class="flex flex-col sm:flex-row mt-2 sm:mt-0 sm:ml-2 w-full sm:w-auto">
 
                 @can('ADMIN IMPORT EXCEL ADD')
-                <a href="{{ route('farmers.import.create') }}" class="btn-amber-karite flex items-center w-full sm:w-auto">
+                <!-- <a href="{{ route('farmers.import.create') }}" class="btn-amber-karite flex items-center w-full sm:w-auto">
                     <img src="{{ asset('assets/img/icons/importer.svg') }}" alt="" class="w-5 pr-2">
                     <label for="">Importer</label>
-                </a>
+                </a> -->
                 @endcan
 
                 @can('ADMIN EXPORT EXCEL')
-                <a href="{{ route('farmers.export') }}" class="btn-amber-karite flex items-center w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2">
+                <!-- <a href="{{ route('farmers.export') }}" class="btn-amber-karite flex items-center w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2">
                     <img src="{{ asset('assets/img/icons/exporter.svg') }}" alt="" class="w-5 pr-2">
                     <label for="">Exporter</label>
-                </a>
+                </a> -->
                 @endcan
 
                 @can('ADMIN PRODUCTEUR ADD')
@@ -70,7 +70,7 @@
                                     <td class="whitespace-nowrap px-6 py-4">{{ my_date_format_fr($farmer->born_date) }} à {{ $farmer->born_place }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ $farmer->phone }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ $farmer->sexe }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ ($farmer->agribusiness)  ? $farmer->agribusiness->sigle : '' }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ ($farmer->agribusiness)  ? $farmer->agribusiness->sigle : 'Indépendant' }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ $farmer->locality }}</td>
                                   
                                     <td class="whitespace-nowrap px-6 py-4">

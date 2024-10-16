@@ -334,12 +334,13 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="picture">
                                     photo du fournisseur
                                 </label>
+                                <img src="{{ asset('images/'.$farmerInfo->picture) }}" alt="" width="25%" class="rounded">
                                
                             </div>
 
                             <div class="w-full px-3 mb-3 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="agribusiness_id">
-                                    coopérative / indépendant : <br> {{ $farmerInfo->agribusiness->denomination }}
+                                    coopérative / indépendant : <br> {{ ($farmerInfo->agribusiness) ?  $farmerInfo->agribusiness->denomination: 'Indépandant' }}
                                 </label>
                                
                             </div>
@@ -419,14 +420,14 @@
                         <div class="flex gray-400 mb-6">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="sexe">
-                                    Region : {{ $farmerInfo->region->name }}
+                                    Region : {{ ($farmerInfo->region) ? $farmerInfo->region->name: '' }}
                                 </label>
                                 
                             </div>
 
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="sexe">
-                                    Departement : {{ $farmerInfo->departement->name }}
+                                    Departement : {{ ($farmerInfo->departement) ? $farmerInfo->departement->name:'' }}
                                 </label>
                                
                             </div>

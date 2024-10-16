@@ -133,7 +133,6 @@ class AgribusinessesComponent extends Component
     }
 
 
-
     public function closeModal(){
         $this->isOpen = false;
     }
@@ -197,8 +196,6 @@ class AgribusinessesComponent extends Component
         $agribusiness->status = 0;
         $agribusiness->save();
 
-       
-
         session()->flash('message','Votre enregistement a été effectué avec success');
         $this->resetInput();
         $this->refreshAgribusinessShow();
@@ -250,10 +247,6 @@ class AgribusinessesComponent extends Component
             session()->put('errorMotif','Vous devez renseigner le motif pour rejeter');
         }
     }
-
-
-
-
 
     public function edit($id)
     {

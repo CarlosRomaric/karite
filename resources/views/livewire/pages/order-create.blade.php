@@ -1,218 +1,146 @@
 <div>
-   <form wire:submit.prevent="saveCoop">
-   <div class="flex">
-                <div class="w-1/2 mr-5">
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                           Nom <b class="text-red-500">*</b>
-                        </label>
-                        <input  name="matricule" wire:model="matricule" value="{{ old('matricule') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="matricule" type="text" placeholder="Entrez votre Matricule">
-                        @if($errors->has('matricule'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4  mt-2">
-                                    <strong>{{ $errors->first('matricule') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Denomination <b class="text-red-500">*</b>
-                        </label>
-                        <input name="denomination"  wire:model="denomination" value="{{ old('denomination') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="denomination" type="text" placeholder="Entrez votre Denomination">
-                        @if($errors->has('denomination'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('denomination') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Sigle <b class="text-red-500">*</b>
-                        </label>
-                        <input  name="sigle" wire:model="sigle" value="{{ old('sigle') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="sigle" type="text" placeholder="Entrez votre Sigle ">
-                        @if($errors->has('sigle'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('sigle') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Region <b class="text-red-500">*</b>
-                        </label>
-                        <select name="region_id" wire:model.change="region_id"  class="form-control focus:border-amber-300 focus:outline-none">
-                        <option value="">Choississez la region</option>
-                      
-                                <option  value=""></option>
-                       
-                        </select>
-                        @if($errors->has('region_id'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('region_id') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Departement <b class="text-red-500">*</b>
-                        </label>
-                        <select name="departement_id" wire:model="departement_id"  class="form-control focus:border-amber-500">
-                            <option value="">Choississez le departement</option>
-                           
-                                <option  value=""></option>
-                           
-                        </select>
-                        @if($errors->has('departement_id'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('departement_id') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                    
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="headquaters">
-                            Siège <b class="text-red-500">*</b>
-                        </label>
-                        <input  name="headquaters" wire:model="headquaters" value="{{ old('headquaters') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="headquaters" type="text" placeholder="Entrez le du siège de la coopérative">
-                        @if($errors->has('headquaters'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('headquaters') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
-                
-
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Adresse postale
-                        </label>
-                        <input  name="address" wire:model="address" value="{{ old('address') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="matricule" type="text" placeholder="Entrez votre adresse postale">
-                        @if($errors->has('address'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('address') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-
+    <form wire:submit.prevent="save">
+        <div class="flex">
+            <div class="w-1/2 mr-5">
+                <!-- Champ Lastname -->
+                <div class="mb-4 ">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lastname">
+                        Nom <b class="text-red-500">*</b>
+                    </label>
+                    <input name="lastname" wire:model="lastname" value="{{ old('lastname') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lastname" type="text" placeholder="Entrez votre nom">
+                    @if($errors->has('lastname'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('lastname') }}</strong>
+                        </div>
+                    @endif
                 </div>
-                <div class="w-1/2">
 
+                <!-- Champ Email -->
+                <div class="mb-4 ">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        Email <b class="text-red-500">*</b>
+                    </label>
+                    <input name="email" wire:model="email" value="{{ old('email') }}" type="email" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" placeholder="Entrez votre email">
+                    @if($errors->has('email'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </div>
+                    @endif
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                        Certification <b class="text-red-500">*</b>
-                        </label>
-                        
-                        @if($errors->has('certification_id'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('certification_id') }}</strong>
-                                </div>
-                        @endif 
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-1" for="matricule">
-                        Banques <b class="text-red-500">*</b>
-                        </label>
-                        <select  id="bank" name="bank" wire:model="bank"   class="form-control">
-                            <option value="">Choississez votre banque</option>
-                            <option value="NSA">NSA</option>
-                            <option value="SGBCI">SGBCI</option>
-                            <option value="ECOBANK">ECOBANK</option>
-                            <option value="UBA">UBA</option>
-                            <option value="BNI">BNI</option>
-                            <option value="Autres">Autres</option>
-                        </select>
-                        @if($errors->has('bank'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                    <strong>{{ $errors->first('bank') }}</strong>
-                                </div>
-                        @endif 
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm mb-2 font-bold" for="matricule">
-                        DFE
-                        </label>
-
-                        <input
-                            wire:model="dfe"
-                            value="{{ old('dfe') }}"
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                            type="file"
-                            id="dfe" />
-                            @if($errors->has('dfe'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('dfe') }}</strong>
-                                </div>
-                            @endif
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm  mb-1 font-bold" for="matricule">
-                        Registre de commerce
-                        </label>
-
-                        <input
-                            wire:model="registre_commerce"
-                            value="{{ old('registre_commerce') }}"
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                            type="file"
-                            id="registre_commerce" />
-
-                            @if($errors->has('registre_commerce'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('registre_commerce') }}</strong>
-                                </div>
-                            @endif
-                        
-                    </div>
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="number_sections">
-                        Nombres de sections <b class="text-red-500">*</b>
-                        </label>
-                        <input  wire:model="number_sections"  onkeypress="return isNumber(event)"  value="{{ old('number_sections') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="matricule" type="text" placeholder="Entrez le nombre de vos sections">
-                        @if($errors->has('number_sections'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('number_sections') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-                    <div class="mb-4 ">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Nombre d'unités de transformations <b class="text-red-500">*</b>
-                        </label>
-                        <input  wire:model="number_unite_transformations"  onkeypress="return isNumber(event)" value="{{ old('number_unite_transformations') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="number_unite_transformations" type="text" placeholder="Entrez le nombre d'unités de transformations que vous avez">
-                        @if($errors->has('number_unite_transformations'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('number_unite_transformations') }}</strong>
-                                </div>
-                        @endif
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm mb-2 font-bold" for="logo">
-                            Logo de la coopérative
-                        </label>
-
-                        <input
-                            wire:model="logo"
-                            value="{{ old('logo') }}"
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                            type="file"
-                            id="logo" />
-                            @if($errors->has('logo'))
-                                    <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                            <strong>{{ $errors->first('logo') }}</strong>
-                                    </div>
-                            @endif
-                    </div>
-                
+                <!-- Champ Type de package -->
+                <div class="mb-4 ">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="type_package_id">
+                        Type de package <b class="text-red-500">*</b>
+                    </label>
+                    <select name="type_package_id" wire:model="type_package_id" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="">Choisissez le type de package</option>
+                        @foreach ($type_packages as $type_package)
+                            <option value="{{ $type_package->id }}">{{ $type_package->name }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('type_package_id'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('type_package_id') }}</strong>
+                        </div>
+                    @endif
                 </div>
             </div>
-   </form>
+
+            <div class="w-1/2">
+                <!-- Champ Firstname -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="firstname">
+                        Prénoms <b class="text-red-500">*</b>
+                    </label>
+                    <input name="firstname" wire:model="firstname" value="{{ old('firstname') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstname" type="text" placeholder="Entrez votre prénom">
+                    @if($errors->has('firstname'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('firstname') }}</strong>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Champ Phone -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+                        Contact <b class="text-red-500">*</b>
+                    </label>
+                    <input name="phone" wire:model="phone" onkeypress="return isNumberKey(event)" value="{{ old('phone') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Entrez votre contact">
+                    @if($errors->has('phone'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('phone') }}</strong>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Champ Quantity -->
+                <div class="mb-4 ">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="quantity">
+                        Quantité <b class="text-red-500">*</b>
+                    </label>
+                    <input name="quantity" wire:model="quantity" onkeypress="return isNumberKey(event)" value="{{ old('quantity') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="quantity" type="text" placeholder="Entrez la quantité">
+                    @if($errors->has('quantity'))
+                        <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                            <strong>{{ $errors->first('quantity') }}</strong>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Bouton de soumission -->
+                <div class="mb-4">
+                    <button type="submit" class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Soumettre</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+
+
+@push('javascript')
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.addEventListener('order-saved', event => {
+                Swal.fire({
+                    title: 'Commande enregistrée !',
+                    text: event.detail.message || 'Votre commande a été enregistrée avec succès. Vous recevrez la proforma par email.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok',  // Bouton de confirmation
+                    customClass: {
+                        confirmButton: 'bg-amber-900 text-white px-4 py-2 rounded'  // Customiser le bouton
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Action à prendre après que l'utilisateur a confirmé
+                        console.log('Commande confirmée');
+                    }
+                });
+            });
+
+            
+
+            // Fonction pour bloquer les caractères non-numériques pendant la saisie
+            function isNumberKey(event) {
+                var charCode = (event.which) ? event.which : event.keyCode;
+                // Si la touche tapée n'est pas un chiffre (0-9) ou touche de contrôle (backspace, etc.), bloquer l'entrée
+                if (charCode < 48 || charCode > 57) {
+                    event.preventDefault();
+                    return false;
+                }
+                return true;
+            }
+
+            // Fonction pour valider le champ après la saisie (input) afin de corriger les copier-coller
+            function validateNumberInput(input) {
+                // Remplacer tout caractère non numérique par une chaîne vide
+                input.value = input.value.replace(/[^0-9]/g, '');
+            }
+
+            // Assurez-vous que les fonctions sont accessibles dans la portée globale
+            window.isNumberKey = isNumberKey;
+            window.validateNumberInput = validateNumberInput;
+        });
+        
+</script>
+
+@endpush

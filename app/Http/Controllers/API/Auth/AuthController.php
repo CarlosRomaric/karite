@@ -32,9 +32,9 @@ class AuthController extends BaseController
         }
         
         $user = Auth::user();
-       
+        
         $success['user'] = collect($user)->except(['created_at','updated_at','agribusiness_id'])->toArray();
-        return $this->sendResponse($success, 'utilisateur connecté en ce moment.');
+        return $this->sendResponse($user, 'utilisateur connecté en ce moment.');
     }
 
     public function login(LoginRequest $request){

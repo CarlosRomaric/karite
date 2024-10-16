@@ -17,7 +17,6 @@ class RegionController extends BaseController
     public function index(){
 
         $regions = Region::with('departements')->orderBy('created_at')->get();
-        //dd($regions);
 
         return $this->sendResponse($regions,'liste des regions');
     }

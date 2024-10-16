@@ -60,4 +60,9 @@ class Farmer extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

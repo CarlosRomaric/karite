@@ -9,6 +9,7 @@ use App\Models\Farmer;
 use App\Models\Region;
 use App\Models\Agribusiness;
 use App\Models\Certification;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,12 +34,13 @@ class DashboardController extends Controller
                   ->groupBy('agribusiness_id','certification_id');
         }])
         ->get();
-        //dump($regions);
+        
+        $qtePurchases = Purchase::sum('weight')/1000;
         $offers = Offer::orderBy('created_at','desc')->get();
         $certifications = Certification::orderBy('created_at','DESC')->get();
         
 
-        return view('dashboard.index', compact('farmers', 'agribusinesses', 'users', 'regions', 'offers','certifications'));
+        return view('dashboard.index', compact('farmers', 'agribusinesses', 'users', 'regions', 'offers','certifications','qtePurchases'));
     }
     
 }

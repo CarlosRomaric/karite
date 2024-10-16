@@ -31,12 +31,19 @@ class UserComponent extends Component
             'password' => 'required|min:4|same:password_confirmation',
             'password_confirmation' => 'required|min:4|same:password',
             'role_id' => 'required|exists:roles,id',
-            'agribusiness_id' => 'required|exists:agribusinesses,id'
+            'agribusiness_id' => 'nullable|exists:agribusinesses,id|required_if:role_id,' . $this->getRoleIdForMobile(),
         ];
 
         return $data;
 
 
+    }
+
+    protected function getRoleIdForMobile()
+    {
+        // Remplace par la logique pour obtenir l'ID du rôle "MOBILE"
+        // Par exemple, si le rôle "MOBILE" a un ID de 2, retourne simplement 2
+        return Role::where('name', 'MOBILE')->first()->id;
     }
 
     public function updateRules($userId)
@@ -48,7 +55,7 @@ class UserComponent extends Component
             'password' => 'nullable|min:4|same:password_confirmation',
             'password_confirmation' => 'nullable|min:4|same:password',
             'role_id' => 'required|exists:roles,id',
-            'agribusiness_id' => 'required|exists:agribusinesses,id'
+            'agribusiness_id' => 'nullable|exists:agribusinesses,id|required_if:role_id,' . $this->getRoleIdForMobile(),
         ];
     }
 
@@ -67,8 +74,8 @@ class UserComponent extends Component
             'password_confirmation.required' => 'La confirmation du mot de passe est obligatoire.',
             'role_id.required' => 'Le rôle de l\'utilisateur est obligatoire.',
             'role_id.exists' => 'Le rôle sélectionné n\'existe pas.',
-            'agribusiness_id.required' => 'La coopérative est obligatoire.',
-            'agribusiness_id.exists' => 'La coopérative sélectionnée n\'existe pas.'
+            'agribusiness_id.exists' => 'La coopérative sélectionnée n\'existe pas.',
+            'agribusiness_id.required_if'=>'si l\'utilisateur est un agent vous devez choisir une coopérative'
         ];
     }
 
@@ -100,13 +107,15 @@ class UserComponent extends Component
     }
 
     public function saveUser(){
+       
         $this->validate();
+        //dd($this->password);
         $user = New User();
         $user->fullname = $this->fullname;
         $user->username = $this->username;
         $user->phone = $this->phone;
         $user->password =  Hash::make($this->password);
-        $user->agribusiness_id = $this->agribusiness_id;
+        $user->agribusiness_id = !empty($this->agribusiness_id) ? $this->agribusiness_id :'NULL';
         $user->save();
 
         $user->roles()->sync($this->role_id);
@@ -134,7 +143,7 @@ class UserComponent extends Component
         $this->authorize('ADMIN USER UPDATE');
         $this->validate($this->updateRules($this->userId));
 
-        dd('Validation réussie');
+       
        
         if ($this->userId) {
 
@@ -148,7 +157,7 @@ class UserComponent extends Component
             }
             $user->agribusiness_id = $this->agribusiness_id;
             
-            dd($user);
+           
             $user->save();
             // $user->roles()->sync($this->role_id);
 
