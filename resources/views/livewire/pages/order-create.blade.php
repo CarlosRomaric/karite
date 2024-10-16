@@ -66,7 +66,7 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
                         Contact <b class="text-red-500">*</b>
                     </label>
-                    <input name="phone" wire:model="phone" onkeypress="return isNumberKey(event)" value="{{ old('phone') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Entrez votre contact">
+                    <input name="phone" wire:model="phone" onkeypress="return isNumberKey(event)" value="{{ old('phone') }}" maxlength="14" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="text" placeholder="Entrez votre contact">
                     @if($errors->has('phone'))
                         <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
                             <strong>{{ $errors->first('phone') }}</strong>
@@ -129,6 +129,19 @@
                 }
                 return true;
             }
+
+            // Fonction pour formater le numéro de contact
+            function formatPhoneNumber(input) {
+                // Supprimer tous les espaces existants et reformater
+                let cleaned = input.value.replace(/\D/g, '');
+                let formatted = cleaned.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
+                input.value = formatted;
+            }
+
+            // Appliquer le formatage à chaque frappe de touche
+            document.getElementById('phone').addEventListener('input', function (event) {
+                formatPhoneNumber(event.target);
+            });
 
             // Fonction pour valider le champ après la saisie (input) afin de corriger les copier-coller
             function validateNumberInput(input) {

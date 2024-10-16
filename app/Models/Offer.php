@@ -25,8 +25,14 @@ class Offer extends Model
         return $this->belongsTo(Order::class);
     }
 
-    public function type_package(){
+    public function type_package()
+    {
         return $this->belongsTo(TypePackage::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
     public function sealed()

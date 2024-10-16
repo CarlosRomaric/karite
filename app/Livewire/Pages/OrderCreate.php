@@ -6,6 +6,8 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\TypePackage;
 use Livewire\Component;
+use App\Mail\OrderConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderCreate extends Component
 {
@@ -50,9 +52,12 @@ class OrderCreate extends Component
         $order->quantity = $this->quantity;
         $order->type_package_id = $this->type_package_id;
         $order->offer_id = $this->offerId;
+        $order->state = 'En Attente';
         $order->save();
+        // Envoyer un email de confirmation
+        Mail::to($order->email)->send(new OrderConfirmationMail($order));
         $this->resetInput();
-      // Émettre un événement Livewire après l'enregistrement réussi
+        // Émettre un événement Livewire après l'enregistrement réussi
     $this->dispatch('order-saved', ['message' => 'Votre commande a bien été enregistrée.']);
     }
 

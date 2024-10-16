@@ -57,7 +57,7 @@
                                     <td class="whitespace-nowrap px-6 py-4">{{ $offer->selling_price }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ ($offer->selling_price * $offer->weight ) }}</td>
                                     <!-- <td class="whitespace-nowrap px-6 py-4">{{ $offer->type_package_id }}</td> -->
-                                    <td class="whitespace-nowrap px-6 py-4">-</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->statut }}</td>
                                     
                                     <td class="whitespace-nowrap px-6 py-4">
                                     @if(auth()->check() && (auth()->user()->isPlateformAdmin() || auth()->user()->isAgribusinessAdmin ))

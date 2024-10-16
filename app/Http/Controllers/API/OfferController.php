@@ -70,7 +70,8 @@ class OfferController extends BaseController
                                 "agribusiness"=>$offer->agribusiness->denomination,
                                 "statut"=>$offer->statut,
                                 "certification"=>$offer->certification->name,
-                                "code"=>$offer->code
+                                "code"=>$offer->code,
+                                'qr_codes' => $offer->sealed->pluck('code')->toArray()
                             ];
                         });
         return $this->sendResponse($offers,'liste des offres de produit');
@@ -180,12 +181,7 @@ class OfferController extends BaseController
                         'agribusiness' => $offre->agribusiness->denomination,
                         'statut' => $offre->statut,
                         'certification' =>  $offre->certification->name, // Inclure l'objet certification tel quel
-                        'qr_codes' => $offre->sealed->map(function($sealed) {
-                            return [
-                                'code' => $sealed->code,   // Extraire uniquement le champ 'code'
-                                'state' => $sealed->state  // Extraire uniquement le champ 'state'
-                            ];
-                        })
+                        'qr_codes' => $offer->sealed->pluck('code')->toArray()
                     ];
         
                     $dataSave[] = $transformedOffer;  // Ajouter l'offre transformée à $dataSave

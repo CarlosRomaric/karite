@@ -104,7 +104,7 @@
                                 </li>
                                
                                 <li>
-                                    <a href="{{ route('orders.index') }}" class="block px-4 py-2 border-b hover:rounded-b-lg hover:border-gray-100 hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white" wire:navigate.hover>Demandes</a>
+                                    <a href="{{ route('orders.index') }}" class="block px-4 py-2 border-b hover:rounded-b-lg hover:border-gray-100 hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white" wire:navigate.hover>Commandes</a>
                                 </li> 
                                
                             </ul>

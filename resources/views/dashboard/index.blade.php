@@ -33,7 +33,7 @@
                 <div class="flex flex-col md:flex-row">
                     <!-- Partie gauche -->
                     <div class="w-full md:w-full px-4 md:px-0">
-                        <div class="bg-amber-100 pl-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 rounded-lg my-5 shadow-lg">
+                        <div class="bg-amber-100 pl-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 rounded-lg my-5 shadow-lg">
                             @if(auth()->user()->isTraceAgriAdmin() || auth()->user()->isPlateformAdmin())
                             <div class="card-amber">
                                 <p class="font-semibold">Nombre de Coopératives</p>
@@ -42,8 +42,13 @@
                             @endif
                             <!-- Cartes de statistiques -->
                             <div class="card-amber">
-                                <p class="font-semibold">Quantité d'amandes</p>
+                                <p class="font-semibold">Quantité d'amandes Achétés</p>
                                 <p class="stat">{{ $qtePurchases }} (T)</p>
+                            </div>
+
+                            <div class="card-amber">
+                                <p class="font-semibold">Quantité de beurre de karite Vendues</p>
+                                <p class="stat">0 (T)</p>
                             </div>
                             
                             <div class="card-amber-final">
