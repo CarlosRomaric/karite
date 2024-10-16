@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 class OrderCreate extends Component
 {
     public $offerId;
-    public $lastname, $firstname, $email, $phone, $quantity, $type_package_id;
+    public $lastname, $firstname, $email, $phone, $quantity, $type_package_id, $lieu_livraison;
 
 
     public function rules()
@@ -23,7 +23,8 @@ class OrderCreate extends Component
             'email'=>'required|email',
             'phone'=>'required',
             'quantity'=>'required',
-            'type_package_id'=>'required'
+            'type_package_id'=>'required',
+            'lieu_livraison'=>'required'
         ];
     }
 
@@ -36,7 +37,8 @@ class OrderCreate extends Component
             'email.email'=>'votre email n\'est pas conforme',
             'phone.required'=>'le contact est obligatoire',
             'quantity.required'=>"la quantité est obligatoire",
-            'type_package_id.required'=>"le type de package est obligatoire"
+            'type_package_id.required'=>"le type de package est obligatoire",
+            'lieu_livraison.required'=>"Le lieu de la livraison du colis est obligatoire"
         ];
     }
 
@@ -51,6 +53,7 @@ class OrderCreate extends Component
         $order->phone = $this->phone;
         $order->quantity = $this->quantity;
         $order->type_package_id = $this->type_package_id;
+        $order->lieu_livraison = $this->lieu_livraison;
         $order->offer_id = $this->offerId;
         $order->state = 'En Attente';
         $order->save();
@@ -63,7 +66,7 @@ class OrderCreate extends Component
 
     public function resetInput()
     {
-        $this->reset('lastname','firstname','email','phone','quantity','type_package_id');
+        $this->reset('lastname','firstname','email','phone','quantity','type_package_id','lieu_livraison');
     }
 
     public function render()

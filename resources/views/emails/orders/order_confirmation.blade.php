@@ -14,6 +14,8 @@
         <li>Email : {{ $order->email }}</li>
         <li>Contact : {{ $order->phone }}</li>
         <li>Quantité : {{ $order->quantity }}</li>
+        <li>Type de Conditionnement : {{ $order->type_package->name }}</li>
+        <li>Lieu de livraison : {{ $order->lieu_livraison }}</li>
         <li>État de la commande : {{ $order->state }}</li>
     </ul>
 
