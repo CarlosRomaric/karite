@@ -47,13 +47,13 @@
                 </div>
 
                 <div class="mb-4 ">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lieu_livraison">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="place_delivery">
                         Lieu de la livraison <b class="text-red-500">*</b>
                     </label>
-                    <input name="lieu_livraison" wire:model="lieu_livraison" value="{{ old('lieu_livraison') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="lieu_livraison" type="text" placeholder="Entrez le lieu de la livraison">
-                    @if($errors->has('lieu_livraison'))
+                    <input name="place_delivery" wire:model="place_delivery" value="{{ old('place_delivery') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="place_delivery" type="text" placeholder="Entrez le lieu de la livraison">
+                    @if($errors->has('place_delivery'))
                         <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                            <strong>{{ $errors->first('lieu_livraison') }}</strong>
+                            <strong>{{ $errors->first('place_delivery') }}</strong>
                         </div>
                     @endif
                 </div>

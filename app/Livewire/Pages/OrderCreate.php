@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 class OrderCreate extends Component
 {
     public $offerId;
-    public $lastname, $firstname, $email, $phone, $quantity, $type_package_id, $lieu_livraison;
+    public $lastname, $firstname, $email, $phone, $quantity, $type_package_id, $place_delivery;
 
 
     public function rules()
@@ -24,7 +24,7 @@ class OrderCreate extends Component
             'phone'=>'required',
             'quantity'=>'required',
             'type_package_id'=>'required',
-            'lieu_livraison'=>'required'
+            'place_delivery'=>'required'
         ];
     }
 
@@ -38,7 +38,7 @@ class OrderCreate extends Component
             'phone.required'=>'le contact est obligatoire',
             'quantity.required'=>"la quantité est obligatoire",
             'type_package_id.required'=>"le type de package est obligatoire",
-            'lieu_livraison.required'=>"Le lieu de la livraison du colis est obligatoire"
+            'place_delivery.required'=>"Le lieu de la livraison du colis est obligatoire"
         ];
     }
 
@@ -53,7 +53,7 @@ class OrderCreate extends Component
         $order->phone = $this->phone;
         $order->quantity = $this->quantity;
         $order->type_package_id = $this->type_package_id;
-        $order->lieu_livraison = $this->lieu_livraison;
+        $order->place_delivery = $this->place_delivery;
         $order->offer_id = $this->offerId;
         $order->state = 'En Attente';
         $order->save();
