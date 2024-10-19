@@ -28,6 +28,7 @@ class FarmerController extends BaseController
     }
 
     public function rules(){
+        
         $rules = [
             'fullname'=>'required',
             'phone'=>'required|unique:farmers,phone',
@@ -37,6 +38,7 @@ class FarmerController extends BaseController
             'locality'=>'required',
             'activity'=>'required',
             'sexe'=>'required',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
 
         return $rules;
@@ -52,7 +54,8 @@ class FarmerController extends BaseController
             'locality'=>'required',
             'activity'=>'required',
             'sexe'=>'required',
-            'farmer_id'=>'required'
+            'farmer_id'=>'required',
+
         ];
 
         return $rules;
@@ -69,7 +72,9 @@ class FarmerController extends BaseController
             'locality.required'=>'le lieu de residence est obligatoire',
             'activity.required'=>'le choix de l\'activité est obligatoire',
             'sexe.required'=>'le choix du sexe est obligatoire',
-            'farmer_id.required'=>'l\'identifiant du producteur est obligatoire'
+            'farmer_id.required'=>'l\'identifiant du producteur est obligatoire',
+            'picture.image' => 'Le fichier doit être une image',
+            'picture.mimes' => 'L\'image doit avoir une extension valide (jpeg, png, jpg, gif, svg)',
         ];
         return $messages;
     }
@@ -169,6 +174,7 @@ class FarmerController extends BaseController
     // }
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), 
         [
             'data' => 'required|array'
@@ -207,27 +213,6 @@ class FarmerController extends BaseController
                 $validatedEntry['departement_id'] = $user->agribusiness ? $user->agribusiness->departement->id : null;
                 $validatedEntry['agribusiness_id'] = $user->agribusiness ? $user->agribusiness->id : null;
 
-                // if (isset($entry['picture'])) {
-                //     $image = $entry['picture'];
-                //     if (preg_match('/^data:image\/(?<type>.+);base64,(?<data>.+)$/', $image, $matches)) {
-                //         $imageType = $matches['type'];
-                //         $imageData = base64_decode($matches['data']);
-                        
-                //         // Déterminer l'extension du fichier
-                //         $extension = $imageType === 'jpeg' ? 'jpg' : $imageType;
-
-                //         // Définir un nom unique pour l'image
-                //         $imageName = time() . '_' . uniqid() . '.' . $extension;
-                //         // Chemin où l'image sera stockée
-                //         $path = public_path('images/' . $imageName);
-                //         // Enregistrer l'image
-                //         file_put_contents($path, $imageData);
-
-                //         // Optionnel : Vous pouvez enregistrer le nom du fichier dans la base de données
-                //         $validatedEntry['picture'] = $imageName;
-                //     }
-                // }
-               
                 // Gestion de l'image (upload)
                 if (isset($entry['picture']) && $entry['picture'] instanceof \Illuminate\Http\UploadedFile) {
                     $image = $entry['picture'];
