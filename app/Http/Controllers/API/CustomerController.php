@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Customer;
 use App\Models\Sealed;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\App;
+
 
 class CustomerController extends BaseController
 {
@@ -15,13 +17,14 @@ class CustomerController extends BaseController
      */
     public function scan(Request $request)
     {
-        
         $validator = Validator::make($request->all(), [
             'qr_code' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
             'lang' => 'required',
         ]);
 
-        if($request->lang=='Français')
+        if($request->lang == 'Français')
             App::setLocale('fr');
         else
             App::setLocale('en');
@@ -30,14 +33,34 @@ class CustomerController extends BaseController
             return response()->json(['error' => $validator->errors()], 401);
         }
 
-        $sealed = Sealed::with(['lot.agribusiness.region','lot.agribusiness.parc'])->where('code',$request->qr_code)->where('state','USED')->first();
+        $sealed = Sealed::with(['lot.agribusiness.region', 'lot.agribusiness.parc'])
+                        ->where('code', $request->qr_code)
+                        ->where('state', 'USED')
+                        ->first();
 
-        if($sealed){
-            return response()->json(['success' => ["sealed"=>$sealed]], 200);
-        }else{
-            return response()->json(['error' => ["error"=>[__('messages.error_qr_code')]]], 401);
+        if ($sealed) {
+
+            $verification = Verification::where('code', $request->qr_code)->first();
+
+            if ($verification) {
+                $verification->update([
+                    'longitude' => $request->longitude,
+                    'latitude' => $request->latitude,
+                ]);
+            } else {
+                Verification::create([
+                    'code' => $request->qr_code,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                ]);
+            }
+
+            return response()->json(['success' => ["sealed" => $sealed]], 200);
+        } else {
+            return response()->json(['error' => ["error" => [__('messages.error_qr_code')]]], 401);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
