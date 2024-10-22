@@ -11,6 +11,8 @@ use App\Http\Controllers\API\RegionController;
 use App\Http\Controllers\API\SealedController;
 use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Auth\CustomerAuthController;
+use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\TypePackageController;
@@ -35,7 +37,24 @@ use App\Http\Controllers\API\SynchronizationController;
 
 
 Route::prefix('authenticate')->group(function () {
+
     Route::post('login', [AuthController::class, 'login']);
+
+    Route::post('customer/login', [CustomerAuthController::class, 'login']);
+    Route::post('customer/sign-in', [CustomerAuthController::class, 'sign_in']);
+
+    Route::middleware('auth:customers_api')->group(function () {
+        Route::post('customer/logout', [AuthController::class, 'logout']);
+    });
+
+});
+
+Route::prefix('customer')->group(function () {
+
+    Route::middleware('auth:customers_api')->group(function () {
+        Route::post('scan', [CustomerController::class, 'scan']);
+    });
+
 });
 
 Route::prefix('user')->group(function () {

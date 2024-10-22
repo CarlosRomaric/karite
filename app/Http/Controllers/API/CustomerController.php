@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Models\Customer;
+use App\Models\Sealed;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\App;
+
+class CustomerController extends BaseController
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function scan(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'qr_code' => 'required',
+            'lang' => 'required',
+        ]);
+
+        if($request->lang=='Français')
+            App::setLocale('fr');
+        else
+            App::setLocale('en');
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
+        $sealed = Sealed::with(['lot.agribusiness.region','lot.agribusiness.parc'])->where('code',$request->qr_code)->where('state','USED')->first();
+
+        if($sealed){
+            return response()->json(['success' => ["sealed"=>$sealed]], 200);
+        }else{
+            return response()->json(['error' => ["error"=>[__('messages.error_qr_code')]]], 401);
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+    */
+
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Customer $customer)
+    {
+        //
+    }
+}
