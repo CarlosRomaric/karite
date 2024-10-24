@@ -50,9 +50,11 @@ Route::prefix('authenticate')->group(function () {
 });
 
 Route::prefix('customer')->group(function () {
-
+    
+    Route::post('scan', [CustomerController::class, 'scan']);
+    
     Route::middleware('auth:customers_api')->group(function () {
-        Route::post('scan', [CustomerController::class, 'scan']);
+        Route::post('data', [CustomerController::class, 'data']);
     });
 
 });

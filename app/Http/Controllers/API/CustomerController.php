@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Customer;
 use App\Models\Sealed;
+use App\Models\TypePackage;
+use App\Models\Country;
 use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -65,6 +67,26 @@ class CustomerController extends BaseController
     /**
      * Show the form for creating a new resource.
     */
+
+
+    public function data()
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $user,
+                'type_package'=> TypePackage::all(),
+                'countries'=> Country::all(),
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+    }
 
     public function create()
     {
