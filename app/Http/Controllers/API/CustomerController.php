@@ -71,12 +71,12 @@ class CustomerController extends BaseController
 
     public function data()
     {
-        $user = auth()->user();
+        $customer = auth()->user();
 
-        if ($user) {
+        if ($customer) {
             return response()->json([
                 'status' => 'success',
-                'data' => $user,
+                'data' => $customer,
                 'type_package'=> TypePackage::all(),
                 'countries'=> Country::all(),
             ]);
@@ -120,9 +120,36 @@ class CustomerController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request)
     {
-        //
+
+        $customer = Customer::findOrfail(auth()->id());
+
+        $file = $request->file('avatar');
+
+        if ($file) {
+            $filePath = $file->storeAs('public/avatar', $file->hashName());
+            $customer->avatar = $filePath ?? '';
+            $customer->avatar = str_replace('public/','',$customer->avatar);
+        }
+
+        if($request->password!=''){
+            $customer->password = bcrypt($request->password);
+        }
+
+        $customer->email = $request->email;
+        $customer->firstname = $request->first_name;
+        $customer->lastname = $request->last_name;
+        $customer->location = $request->location;
+        $customer->civility = $request->civility;
+        $customer->birthday = $request->birthday;
+
+        if($customer->save()){
+            return response()->json(['success' => ["message"=>__('messages.success_update')]], 200);
+        }else{
+            return response()->json(['error' => ["error"=>[__('messages.error')]]], 401);
+        }
+        
     }
 
     /**

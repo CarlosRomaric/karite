@@ -13,6 +13,7 @@ use App\Http\Controllers\API\PurchaseController;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\CustomerAuthController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\LogoutController;
 use App\Http\Controllers\API\TypePackageController;
@@ -42,7 +43,7 @@ Route::prefix('authenticate')->group(function () {
 
     Route::post('customer/login', [CustomerAuthController::class, 'login']);
     Route::post('customer/sign-in', [CustomerAuthController::class, 'sign_in']);
-
+    
     Route::middleware('auth:customers_api')->group(function () {
         Route::post('customer/logout', [AuthController::class, 'logout']);
     });
@@ -52,9 +53,22 @@ Route::prefix('authenticate')->group(function () {
 Route::prefix('customer')->group(function () {
     
     Route::post('scan', [CustomerController::class, 'scan']);
-    
+     
     Route::middleware('auth:customers_api')->group(function () {
         Route::post('data', [CustomerController::class, 'data']);
+        Route::post('update', [CustomerController::class, 'update']);
+    });
+
+});
+
+Route::prefix('order')->group(function () {
+    
+    Route::get('call-back', [OrderController::class, 'call_back'])->name('call-back');
+    Route::post('call-back', [OrderController::class, 'call_back']);
+
+    Route::middleware('auth:customers_api')->group(function () {
+        Route::post('create', [OrderController::class, 'create']);
+        Route::get('get', [OrderController::class, 'get']);
     });
 
 });
