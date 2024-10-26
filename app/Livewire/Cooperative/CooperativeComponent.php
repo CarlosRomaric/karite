@@ -8,11 +8,12 @@ use App\Models\Region;
 use Livewire\Component;
 use App\Models\Departement;
 use App\Models\Agribusiness;
+use App\Utilities\NewSmsAPI;
+use App\Models\Certification;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule; 
 use App\Models\AgribuisinessSave;
-use App\Models\Certification;
-use App\Utilities\NewSmsAPI;
+use Illuminate\Support\Facades\Hash;
 
 class CooperativeComponent extends Component
 {
@@ -206,8 +207,9 @@ class CooperativeComponent extends Component
         $pca->phone = str_replace(" ", "", $this->phone_pca);
         $pca->email = $this->email_pca; 
         $pca->agribusiness_id = $agribusiness->id;
-        $pca->password = bcrypt($this->phone_pca);
-        if(!empty($this->photo_pca)){
+        $pca->password =  Hash::make($pca->phone);
+        //dd($pca);
+        if(!empty($this->photo_pca) && $this->photo_pca->isValid()){
             $pathPhotoPca = 'images/photo_pca/'.trim($this->sigle);
             $filenamePhotoPca = trim($this->photo_pca->getClientOriginalName());
             $pca->picture = $this->photo_pca->storeAs($pathPhotoPca, $filenamePhotoPca,'public');
@@ -221,28 +223,31 @@ class CooperativeComponent extends Component
 
         $sup = new User();
         $sup->fullname = $this->lastname_sup.' '.$this->firstname_sup;
-        $sup->username = trim($this->phone_sup);
-        $sup->phone = trim($this->phone_sup);
+        $sup->username = str_replace(" ", "", $this->phone_sup);
+        $sup->phone = str_replace(" ", "", $this->phone_sup);
         $sup->email = $this->email_sup; 
         $sup->agribusiness_id = $agribusiness->id;
-        $sup->password = bcrypt($this->phone_sup);
-        if(!empty($this->photo_sup)){
+        $sup->password =  Hash::make($sup->phone);
+        if(!empty($this->photo_sup) && $this->photo_sup->isValid()){
             $pathPhotoSup = 'photo_sup/'.trim($this->sigle);
             $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
             $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup,'public');
         }
       
         $sup->job = 'SUPERVISEUR';
+        
         $sup->status = 0;
         $sup->save();
-
         $sup->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
+
         $this->resetInput();
+
         session()->flash('message','votre demande d\'inscription de cooperative a bien été enregistré ');
         $this->dispatch('inscription', ['message' => 'Votre inscription a bien été enregistrée.']);
     }
 
     public function resetInput(){
+
         $this->numRegistreCommerce = '';
         $this->denomination = '';
         $this->sigle = '';

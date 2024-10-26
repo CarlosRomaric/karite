@@ -178,17 +178,18 @@ class AgribusinessesComponent extends Component
         $agribusiness->headquaters = $this->headquaters;
         $agribusiness->bank = $this->bank;
 
-        $filenameRg = $this->registre_commerce->getClientOriginalName();
-        $pathRg = 'public/registre_commerciale/'.trim($this->sigle);
-        $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg);
-
-        $filenameDfe = $this->dfe->getClientOriginalName();
-        $pathDfe = 'public/dfe/'.trim($this->sigle);
-        $agribusiness->dfe = $this->dfe->storeAs($pathDfe, $filenameDfe);
+        if(!empty($this->registre_commerce) && $this->registre_commerce->isValid())
+        {
+            $filenameRg = $this->registre_commerce->getClientOriginalName();
+            $pathRg = 'registre_commerciale/'.trim($this->sigle);
+            $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg,'public');
+        }
+    
+       
         $agribusiness->number_sections = $this->number_sections;
         $agribusiness->number_unite_transformations = $this->number_unite_transformations;
 
-        if($this->logo){
+        if($this->logo && $this->logo->isValid()){
             $pathFileProducers = $this->logo->getClientOriginalName();
             $filenameFileProducers = 'public/logo/'.trim($this->sigle);
             $agribusiness->logo = $this->logo->storeAs($pathFileProducers, $filenameFileProducers);
@@ -220,8 +221,10 @@ class AgribusinessesComponent extends Component
             $this->sup = User::where('agribusiness_id',$this->agribusinessId)->where('job','SUPERVISEUR')->first();
             
                 $messageSender = new NewSmsAPI();
-                $message ='vos accèss on bien été crée login sur l\'application karite 2.0 login:'.$this->sup->phone.' et le mot de passe est: '.$this->sup->phone;
-                $messageSender->sendSMS([$this->sup->phone], $message);
+                $messageSup ='vos accèss on bien été crée login sur l\'application karite 2.0 login:'.$this->sup->phone.' et le mot de passe est: '.$this->sup->phone;
+                $messagePca ='vos accèss on bien été crée login sur l\'application karite 2.0 login:'.$this->pca->phone.' et le mot de passe est: '.$this->pca->phone;
+                $messageSender->sendSMS([$this->sup->phone], $messageSup);
+                $messageSender->sendSMS([$this->pca->phone], $messagePca);
             
            
             $this->closeModalShow();
@@ -242,6 +245,14 @@ class AgribusinessesComponent extends Component
             if(!empty(session('errorMotif'))){
                 session()->forget('errorMotif');
             }
+            $this->pca = User::where('agribusiness_id',$agribusiness->id)->where('job','PCA')->first();
+            $this->sup = User::where('agribusiness_id',$agribusiness->id)->where('job','SUPERVISEUR')->first();
+
+            $messageSender = new NewSmsAPI();
+            $message ='votre demande de création de coopérative a échoué car pour motif: '.$this->motif;
+           
+            $messageSender->sendSMS([$this->sup->phone], $message);
+            $messageSender->sendSMS([$this->pca->phone], $message);
             $this->closeModalShow();
 
         }else{
@@ -271,8 +282,8 @@ class AgribusinessesComponent extends Component
         $this->departements = Departement::all();
         $this->region_id = $agribusiness->region_id;
         $this->departement_id = $agribusiness->departement_id;
-        $this->doc_dfe =str_replace('public/', '' ,$agribusiness->dfe);
-        $this->doc_registre_commerce =str_replace('public/', '' ,$agribusiness->registre_commerce);
+       
+        $this->doc_registre_commerce = $agribusiness->registre_commerce;
        
     }
 

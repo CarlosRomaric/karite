@@ -516,7 +516,7 @@
                             </label>
                             
                         </div>
-
+                        @if($statusCoop <> 1)
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
                                 Motif
@@ -532,20 +532,21 @@
                                     </div>
                             @endif
                         </div>
+                        @endif
                         
                     </div>
                 
-
+                    @if($statusCoop <> 1)
                     <div class="flex justify-between">
                        
                         <div class="flex justify-end mt-5">
                             <button type="button" wire:click='rejetCoop("{{$agribusinessId}}")' class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mx-1 rounded focus:outline-none focus:shadow-outline ">Rejeter</button>
-                             @if($statusCoop <> 1)<button type="button" wire:click='valideCoop("{{$agribusinessId}}")' class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2" >Valider</button>@endif
+                            <button type="button" wire:click='valideCoop("{{$agribusinessId}}")' class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2" >Valider</button>
                         </div>
                             
                        
                     </div>
-                
+                    @endif
 
             </div>
     </div>

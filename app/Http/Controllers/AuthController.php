@@ -33,7 +33,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->has('remember_me')))
         {
             
-            if (auth()->user()->isMobile()) {
+            if (auth()->user()->isMobile() || auth()->user()->isSupervisorAgribusiness()) {
                 auth()->logout();
 
                 return back()->withInput($request->input())->with([

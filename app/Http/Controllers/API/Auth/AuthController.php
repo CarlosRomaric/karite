@@ -39,10 +39,11 @@ class AuthController extends BaseController
 
     public function login(LoginRequest $request){
         
-        $credentials = ['username' => $request->username, 'password' => $request->password];
-        if(Auth::attempt($credentials)){ 
+        //$credentials = ['username' => $request->username, 'password' => $request->password];
+        $user = User::where('username', $request->username)->first();
+       
+        if($user && Hash::check($request->password, $user->password)){ 
            
-            $user = $request->user(); 
             if($user->isMobile()==true || $user->isSupervisorAgribusiness()==true || $user->isAgentCoop()){
                 $tokenResult =  $user->createToken('Karite Personal Access Client');
                 $success['access_token'] = $tokenResult->accessToken; 
