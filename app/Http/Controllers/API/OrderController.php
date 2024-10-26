@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
-
+use App\Services\AfribaPayService;
 
 class OrderController extends BaseController
 {
@@ -68,28 +68,21 @@ class OrderController extends BaseController
             if(trim($request->channel)!=''){
 
                 $data = [
-                    'merchantId' => env('PROVIDER'),
-                    'amount' => 100,
-                    'description' => "Paiement commande",
-                    'channel' => $request->channel,
-                    'countryCurrencyCode' => "952",
-                    'referenceNumber' => $order->id,
-                    'customerEmail' => $request->email,
-                    'customerFirstName' => $request->firstname,
-                    'customerLastname' => $request->lastname,
-                    'customerPhoneNumber' => $request->phone,
-                    'notificationURL' => route('call-back'),
-                    'returnURL' => route('call-back'),
+                    "otp_code"=>$request->otp_code ?? null,
+                    "operator"=>$request->channel,
+                    "phone_number"=>$request->phone_payment,
+                    "amount"=>100,
+                    "order_id"=>$order->id,
+                    "reference_id"=>'K-2.0-'.time()
                 ];
+
+                $data = OrderController::payment($data);
                 
-                $response = Http::withHeaders([
-                    'Content-Type' => 'application/json; charset=utf-8',
-                ])->post('https://www.paiementpro.net/webservice/onlinepayment/init/curl-init.php', $data);
-                
-                $responseData = json_decode($response->body(), true);
-                
-                if($responseData['success']){
-                    return response()->json(['success' => ["message" => __('messages.payment_order'),'url' => $responseData['url']]], 200);
+                if(isset($data['data']['status']) && $data['data']['status']=='PENDING'){
+                    return response()->json(['success' => ["message" => __('messages.payment_order'),'url' => $data['data']['provider_link'] ?? null,"order_id"=>$data['data']['order_id']]], 200);
+                }else{
+                    $order->delete();
+                    return response()->json(['error' => ["error" => [__('messages.error_order')]]], 401);
                 }
 
             }
@@ -101,23 +94,75 @@ class OrderController extends BaseController
         }
     }
 
+    public function status($id){
+        return response()->json(['success' => ["order" => Order::find($id)]], 200);
+    }
+
     public function get()
     {
-        return response()->json(['success' => ["data" => auth()->user()->orders()->with('type_package')->get()]], 200);
+        return response()->json(['success' => ["data" => auth()->user()->orders()->with('type_package')->orderBy('created_at', 'desc')->get()]], 200);
     }
 
     public function call_back(Request $request)
     {
-        $order = Order::where('id','like',"$request->referenceNumber%")->first();
+        $order = Order::find($request->order_id);
 
         if($order){
 
-            if($request->responsecode=='0' && $order->state == 'En Attente'){
+            if($request->status=='SUCCESS' && $order->state == 'En Attente'){
+
                 $order->state = 'Paiement effectué';
                 $order->save();
+
+            }elseif($request->status=='FAILED' && $order->state == 'En Attente'){
+
+                $order->state = 'Paiement réfusé';
+                $order->save();
+
             }
         }
 
         return redirect()->away('karite://');
+    }
+
+    public static function payment($data){
+
+        $afribaPayService = new AfribaPayService;
+
+        if(is_null($data['otp_code'])){
+            
+            $response = $afribaPayService->initiatePayIn(
+                $data['operator'],
+                'CI',
+                $data['phone_number'],
+                $data['amount'],
+                'XOF',
+                $data['order_id'],
+                $data['reference_id'],
+                'fr',
+                route('call-back'),
+                route('call-back'),
+                route('call-back'),
+            );
+            
+        }else{
+
+            $response = $afribaPayService->confirmPayInWithOTP(
+                $data['operator'],
+                $data['otp_code'],
+                'CI',
+                $data['phone_number'],
+                $data['amount'],
+                'XOF',
+                $data['order_id'],
+                $data['reference_id'],
+                'fr',
+                route('call-back'),
+                route('call-back'),
+                route('call-back')
+            );
+        }
+        
+        return $response;
     }
 }

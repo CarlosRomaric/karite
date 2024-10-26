@@ -69,6 +69,7 @@ Route::prefix('order')->group(function () {
     Route::middleware('auth:customers_api')->group(function () {
         Route::post('create', [OrderController::class, 'create']);
         Route::get('get', [OrderController::class, 'get']);
+        Route::get('status/{id}', [OrderController::class, 'status']);
     });
 
 });
