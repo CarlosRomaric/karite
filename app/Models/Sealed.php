@@ -9,4 +9,9 @@ class Sealed extends Model
     {
         return $this->belongsToMany(Offer::class, 'offer_sealed', 'sealed_id', 'offer_id');
     }
+
+    public function lot()
+    {
+        return $this->belongsTo(Lot::class);
+    }
 }

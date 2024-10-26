@@ -36,6 +36,11 @@ class Agribusiness extends Model
         return $this->belongsTo(Departement::class);
     }
 
+    public function parc()
+    {
+        return $this->hasMany(Parc::class);
+    }
+
     public function users(){
         return $this->hasMany(User::class);
     }

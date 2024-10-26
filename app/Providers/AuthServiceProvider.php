@@ -29,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         
         $this->registerPolicies();
+        
 
         if (Schema::hasTable('permissions')) {
             Permission::with('roles')->get()->map(function ($permission) {

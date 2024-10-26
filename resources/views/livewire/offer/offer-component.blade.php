@@ -50,7 +50,7 @@
                                     <td class="whitespace-nowrap px-6 py-4 font-medium" wire:key="{{ $offer->id }}">{{ $i }}</td>
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $offer->code }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ $offer->agribusiness->sigle ?? '-' }} <br> {{ $offer->agribusiness->departement->name ?? '-' }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->certification->name }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ $offer->certification->name ?? ''}}</td>
                                     
                                     <td class="whitespace-nowrap px-6 py-4">{{ $offer->weight }}</td>
                                     
