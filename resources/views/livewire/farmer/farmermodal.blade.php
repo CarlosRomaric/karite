@@ -317,7 +317,7 @@
 @if($isOpenShow)
         <div class="fixed inset-0 flex items-center justify-center z-50 scroll-smooth">
             <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="relative bg-gray-100 p-8 rounded shadow-lg w-1/2 ">
+            <div class="relative bg-gray-100 p-8 rounded shadow-lg w-full h-full overflow-auto">
                 <!-- Modal content goes here -->
                 <svg wire:click.prevent="$set('isOpenShow', false)"
                     class="ml-auto w-6 h-6 text-gray-900 dark:text-gray-900 cursor-pointer fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
@@ -328,7 +328,7 @@
                 <h2 class="text-2xl font-bold mb-4">Information du fournisseur</h2>
 
                
-                    @if($step === 1)
+                  
                         <div class="flex gray-400 mb-3">
                             <div class="w-full px-3 mb-3 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="picture">
@@ -395,7 +395,7 @@
                                
                             </div>
                         </div>
-                    @else
+                    
 
                         
 
@@ -459,26 +459,16 @@
                             </div>
 
                         </div>
-                    @endif
+                    
                     <div class="flex justify-between">
-                        @if($step > 1)
-                        <div class="flex justify-end mt-5">
-                            <button type="button"  wire:click="prevStep" class="bg-amber-400 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Précédent</button>
-                        </div>
-                            
-                        @endif
-                        
-                        @if($step < 2)
-                            <button type="button" wire:click="nextStep" class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Suivant</buttion>
-                        
-                        @else
+                      
                         <div class="flex justify-end mt-5">
                            
                             <button type="button" wire:click='closeModalShow' class="bg-gray-200 hover:bg-gray-300 text-amber-800 font-bold py-2 px-4 mx-1 rounded focus:outline-none focus:shadow-outline ">Fermer</button>
 
                         </div>
                             
-                        @endif
+                       
                     </div>
                     
                    
