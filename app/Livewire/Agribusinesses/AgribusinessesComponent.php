@@ -20,6 +20,7 @@ class AgribusinessesComponent extends Component
     use WithFileUploads;
 
     public $step = 1;
+    public $numRegistreCommerce;
     public $agribusinessId;
     public $matricule, $denomination, $sigle, $address, $region_id, $departement_id, $headquaters, $bank, $certification, $registre_commerce, $dfe, $number_sections, $number_unite_transformations, $logo, $status; 
     public $pca, $sup, $photo_pca, $photo_sup;
@@ -48,7 +49,7 @@ class AgribusinessesComponent extends Component
     {
         $rules = [
 
-            'matricule'=>'required',
+            'numRegistreCommerce'=>'required',
             'denomination'=>'required',
             'sigle'=>'required',
             'region_id'=>'required',
@@ -282,7 +283,7 @@ class AgribusinessesComponent extends Component
         $agribusiness = Agribusiness::findOrFail($id);
         //dd($agribusiness);
         $this->agribusinessId = $id;
-        $this->matricule = $agribusiness->matricule;
+        $this->numRegistreCommerce = $agribusiness->numRegistreCommerce;
         $this->denomination = $agribusiness->denomination;
         $this->sigle = $agribusiness->sigle;
         $this->address = $agribusiness->address;
@@ -295,11 +296,18 @@ class AgribusinessesComponent extends Component
         $this->number_sections = $agribusiness->number_sections;
         $this->number_unite_transformations = $agribusiness->number_unite_transformations;
         $this->registre_commerce = str_replace('public/', '' ,$agribusiness->registre_commerce);
-        $this->dfe = str_replace('public/', '' ,$agribusiness->dfe);
+       
         $this->pca = User::where('agribusiness_id',$this->agribusinessId)->where('job','PCA')->first();
         $this->sup = User::where('agribusiness_id',$this->agribusinessId)->where('job','SUPERVISEUR')->first();
-        $this->photo_pca =  str_replace('public/', '', $this->pca->picture);
-        $this->photo_sup =  str_replace('public/', '', $this->sup->picture);
+        if(!empty($this->photo_pca) && !is_null($this->photo_pca)){
+            $this->photo_pca =  str_replace('public/', '', $this->pca->picture);
+        }
+        if(!empty($this->photo_sup) && !is_null($this->photo_sup))
+        {
+            $this->photo_sup =  str_replace('public/', '', $this->sup->picture);
+        }
+      
+        
         $this->motif = $agribusiness->motif;
         $this->statusCoop = $agribusiness->status;
        
@@ -308,7 +316,7 @@ class AgribusinessesComponent extends Component
     public function update()
     {
         $rulesUpdate = [
-            'matricule'=>'required',
+            'numRegistreCommerce'=>'required',
             'denomination'=>'required',
             'sigle'=>'required',
             'region_id'=>'required',
@@ -321,11 +329,7 @@ class AgribusinessesComponent extends Component
             'number_unite_transformations'=>'required|numeric',
         ];
        
-        if(!empty($this->dfe))
-        {
-            $rulesUpdate['dfe']='required|mimes:pdf,png,jpeg,jpg|max:2048';
-        }
-
+       
         if(!empty($this->registre_commerce))
         {
             $rulesUpdate['registre_commerce']='required|mimes:pdf,png,jpeg,jpg|max:2048';
@@ -346,24 +350,20 @@ class AgribusinessesComponent extends Component
 
         if(!empty($this->registre_commerce)){
             $filenameRg = $this->registre_commerce->getClientOriginalName();
-            $pathRg = 'public/registre_commerciale/'.trim($this->sigle);
-            $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg);
+            $pathRg = 'registre_commerciale/'.trim($this->sigle);
+            $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg,'public');
         }
       
 
-        if(!empty($this->dfe)){
-            $filenameDfe = $this->dfe->getClientOriginalName();
-            $pathDfe = 'public/dfe/'.trim($this->sigle);
-            $agribusiness->dfe = $this->dfe->storeAs($pathDfe, $filenameDfe);
-        }
+       
 
         $agribusiness->number_sections = $this->number_sections;
         $agribusiness->number_unite_transformations = $this->number_unite_transformations;
 
         if($this->logo){
             $pathFileProducers = $this->logo->getClientOriginalName();
-            $filenameFileProducers = 'public/logo/'.trim($this->sigle);
-            $agribusiness->logo = $this->logo->storeAs($pathFileProducers, $filenameFileProducers);
+            $filenameFileProducers = 'logo/'.trim($this->sigle);
+            $agribusiness->logo = $this->logo->storeAs($pathFileProducers, $filenameFileProducers,'public');
         }
       
        
@@ -385,7 +385,7 @@ class AgribusinessesComponent extends Component
         if ($agribusiness) {
             $agribusiness->delete(); // Soft delete
             session()->flash('message', 'La suppression de cette coopérative a été effectuée avec succès');
-            $this->reset('denomination', 'acronym', 'address', 'person_responsible_name', 'person_responsible_phone', 'agribusinessId');
+           
             $this->closeModalDelete();
         } else {
             session()->flash('error', 'Coopérative introuvable');

@@ -12,6 +12,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule; 
 use App\Models\AgribuisinessSave;
 use App\Models\Certification;
+use App\Utilities\NewSmsAPI;
 
 class CooperativeComponent extends Component
 {
@@ -19,7 +20,7 @@ class CooperativeComponent extends Component
 
     public $step = 1;
     // Propriétés pour l'étape 1
-    public $matricule, $denomination, $sigle, $departement_id, $headquaters,  $address, $certification_id, $dfe, $bank, $registre_commerce;
+    public $numRegistreCommerce, $denomination, $sigle, $departement_id, $headquaters,  $address, $certification_id, $dfe, $bank, $registre_commerce;
     public $number_sections, $number_unite_transformations, $logo;
     public $region_id="";
     public $departements = [];
@@ -32,15 +33,17 @@ class CooperativeComponent extends Component
     {
         $rules = [
 
-            'matricule'=>'required',
+            
             'denomination'=>'required',
             'sigle'=>'required',
             'region_id'=>'required',
             'departement_id'=>'required',
             'headquaters'=>'required',
-           
+            'numRegistreCommerce' => [
+                'required',
+              
+            ],
             'certification_id'=>'required',
-            'dfe'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
             'bank'=>'required',
             'registre_commerce'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
             'number_sections'=>'required|numeric',
@@ -48,15 +51,15 @@ class CooperativeComponent extends Component
 
             'firstname_pca'=>'required',
             'lastname_pca'=>'required',
-            'phone_pca'=>'required',
-            'email_pca'=>'email',
-            'photo_pca'=>'image|max:2048',
+            'phone_sup' => 'required|unique:users,phone|unique:users,username', 
+            'email_pca'=>'email|unique:users,email',
+            'photo_pca'=>'nullable|image|max:2048',
            
             'firstname_sup'=>'required',
             'lastname_sup'=>'required',
-            'phone_sup'=>'required',
-            'email_sup'=>'email',
-            'photo_sup'=>'image|max:2048',
+            'phone_sup' => 'required|unique:users,phone|unique:users,username',
+            'email_sup'=>'email|unique:users,email',
+            'photo_sup'=>'nullable|image|max:2048',
             
 
         ];
@@ -74,7 +77,10 @@ class CooperativeComponent extends Component
         $messages = [
             'required'=>'ce champ est obligatoire',
             'image'=>'ce champ doit être une image',
-            'logo.mimes'=>'le fichier que vous devez uploader doit être de l\'un de ces types pdf,png,jpeg,jpg'
+            'logo.mimes'=>'le fichier que vous devez uploader doit être de l\'un de ces types pdf,png,jpeg,jpg',
+            'email_pca.unique'=>'L\'email du PCA existe déjà sur notre plateforme',
+            'email_sup.unique'=>'L\'email du superviseur existe déjà sur notre plateforme',
+           
         ];
         
         return $messages;
@@ -114,14 +120,16 @@ class CooperativeComponent extends Component
         switch ($this->step) {
             case 1:
                 $this->validate([
-                    'matricule'=>'required',
+                    'numRegistreCommerce' => [
+                        'required',
+                    ],
                     'denomination'=>'required',
                     'sigle'=>'required',
                     'region_id'=>'required',
                     'departement_id'=>'required',
                     'headquaters'=>'required',
                     'certification_id'=>'required',
-                    'dfe'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
+                    
                     'bank'=>'required',
                     'registre_commerce'=>'required|mimes:pdf,png,jpeg,jpg|max:2048',
                     'number_sections'=>'required|numeric',
@@ -134,16 +142,16 @@ class CooperativeComponent extends Component
                 $this->validate([
                     'firstname_pca'=>'required',
                     'lastname_pca'=>'required',
-                    'phone_pca'=>'required|exists:users,phone',
-                    'email_pca'=>'email',
-                    'photo_pca'=>'image|max:2048',
+                    'phone_pca'=>'required|unique:users,phone',
+                    'email_pca'=>'emailemail|unique:users,email',
+                    'photo_pca'=>'nullable|image|max:2048',
                 
                     'firstname_sup'=>'required',
                     'lastname_sup'=>'required',
-                    'phone_sup'=>'required|exists:users,phone',
-                    'email_sup'=>'email|exists:users,email',
-                    'photo_sup'=>'image|max:2048',
-                ]);
+                    'phone_sup'=>'required|unique:users,phone',
+                    'email_sup'=>'email|unique:users,email',
+                    'photo_sup'=>'nullable|image|max:2048',
+                ], $this->messages());
                 $this->nextStep();
                 break;
             
@@ -157,11 +165,11 @@ class CooperativeComponent extends Component
 
     public function saveCoop(){
        
-        $validated = $this->validate($this->rules());
+        $validated = $this->validate($this->rules(), $this->messages());
         //dd($validated);
 
         $agribusiness = new Agribusiness();
-        $agribusiness->matricule = $this->matricule;
+        $agribusiness->numRegistreCommerce = $this->numRegistreCommerce;
         $agribusiness->denomination = $this->denomination;
         $agribusiness->sigle = $this->sigle;
         $agribusiness->address = $this->address;
@@ -172,25 +180,25 @@ class CooperativeComponent extends Component
         $agribusiness->bank = $this->bank;
         $agribusiness->certification_id = $this->certification_id;
 
-        $filenameRg = $this->registre_commerce->getClientOriginalName();
-        $pathRg = 'public/registre_commerciale/'.trim($this->sigle);
-        $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg,'public');
+        if(!empty($this->registre_commerce)){
+            $filenameRg = $this->registre_commerce->getClientOriginalName();
+            $pathRg = 'docs/registre_commerciale/'.trim($this->sigle);
+            $agribusiness->registre_commerce = $this->registre_commerce->storeAs($pathRg, $filenameRg,'public');
+        }
 
-        $filenameDfe = $this->dfe->getClientOriginalName();
-        $pathDfe = 'public/dfe/'.trim($this->sigle);
-        $agribusiness->dfe = $this->dfe->storeAs($pathDfe, $filenameDfe, 'public');
         $agribusiness->number_sections = $this->number_sections;
         $agribusiness->number_unite_transformations = $this->number_unite_transformations;
 
-        if($this->logo){
+        if(!empty($this->logo)){
             $pathFileProducers = $this->logo->getClientOriginalName();
-            $filenameFileProducers = 'public/logo/'.trim($this->sigle);
-            $agribusiness->logo = $this->logo->storeAs($pathFileProducers, $filenameFileProducers);
+            $filenameFileProducers = 'logo/'.trim($this->sigle);
+            $agribusiness->logo = $this->logo->storeAs($pathFileProducers, $filenameFileProducers, 'public');
         }
       
 
         $agribusiness->status = 0;
         $agribusiness->save();
+      
 
         $pca = new User();
         $pca->fullname = $this->lastname_pca.' '.$this->firstname_pca;
@@ -199,12 +207,16 @@ class CooperativeComponent extends Component
         $pca->email = $this->email_pca; 
         $pca->agribusiness_id = $agribusiness->id;
         $pca->password = bcrypt($this->phone_pca);
-        $pathPhotoPca = 'public/photo_pca/'.trim($this->sigle);
-        $filenamePhotoPca = trim($this->photo_pca->getClientOriginalName());
-        $pca->picture = $this->photo_pca->storeAs($pathPhotoPca, $filenamePhotoPca);
+        if(!empty($this->photo_pca)){
+            $pathPhotoPca = 'images/photo_pca/'.trim($this->sigle);
+            $filenamePhotoPca = trim($this->photo_pca->getClientOriginalName());
+            $pca->picture = $this->photo_pca->storeAs($pathPhotoPca, $filenamePhotoPca,'public');
+        }
+      
         $pca->job ='PCA';
         $pca->status = 0;
         $pca->save();
+        
         $pca->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
 
         $sup = new User();
@@ -214,9 +226,11 @@ class CooperativeComponent extends Component
         $sup->email = $this->email_sup; 
         $sup->agribusiness_id = $agribusiness->id;
         $sup->password = bcrypt($this->phone_sup);
-        $pathPhotoSup = 'public/photo_sup/'.trim($this->sigle);
-        $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
-        $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup);
+        if(!empty($this->photo_sup)){
+            $pathPhotoSup = 'photo_sup/'.trim($this->sigle);
+            $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
+            $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup,'public');
+        }
       
         $sup->job = 'SUPERVISEUR';
         $sup->status = 0;
@@ -225,16 +239,17 @@ class CooperativeComponent extends Component
         $sup->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
         $this->resetInput();
         session()->flash('message','votre demande d\'inscription de cooperative a bien été enregistré ');
+        $this->dispatch('inscription', ['message' => 'Votre inscription a bien été enregistrée.']);
     }
 
     public function resetInput(){
-        $this->matricule = '';
+        $this->numRegistreCommerce = '';
         $this->denomination = '';
         $this->sigle = '';
         $this->address='';
         $this->region_id='';
         $this->certification_id='';
-        $this->dfe='';
+        
         $this->bank='';
         $this->registre_commerce='';
         $this->number_sections='';

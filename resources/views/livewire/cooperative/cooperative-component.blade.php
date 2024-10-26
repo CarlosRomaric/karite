@@ -41,12 +41,12 @@
 
                     <div class="mb-4 ">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="matricule">
-                            Matricule de la coopérative <b class="text-red-500">*</b>
+                            Numéro de registre de commerce <b class="text-red-500">*</b>
                         </label>
-                        <input  name="matricule" wire:model="matricule" value="{{ old('matricule') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="matricule" type="text" placeholder="Entrez votre Matricule">
-                        @if($errors->has('matricule'))
+                        <input  name="numRegistreCommerce" wire:model="numRegistreCommerce" value="{{ old('numRegistreCommerce') }}" class="shadow focus:border-amber-300 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="numRegistreCommerce" type="text" placeholder="Entrez votre le numero du régistre de commerce">
+                        @if($errors->has('numRegistreCommerce'))
                                 <div class="bg-red-200 text-red-700 rounded py-5 px-4  mt-2">
-                                    <strong>{{ $errors->first('matricule') }}</strong>
+                                    <strong>{{ $errors->first('numRegistreCommerce') }}</strong>
                                 </div>
                         @endif
                     </div>
@@ -80,10 +80,10 @@
                             Region <b class="text-red-500">*</b>
                         </label>
                         <select name="region_id" wire:model.change="region_id"  class="form-control focus:border-amber-300 focus:outline-none">
-                        <option value="">Choississez la region</option>
-                        @foreach ($regions as $region)
-                                <option  value="{{ $region->id }}">{{ $region->name }}</option>
-                        @endforeach
+                            <option value="">Choississez la region</option>
+                            @foreach ($regions as $region)
+                                    <option  value="{{ $region->id }}">{{ $region->name }}</option>
+                            @endforeach
                         </select>
                         @if($errors->has('region_id'))
                                 <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
@@ -177,23 +177,7 @@
                                 </div>
                         @endif 
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm mb-2 font-bold" for="matricule">
-                        DFE
-                        </label>
-
-                        <input
-                            wire:model="dfe"
-                            value="{{ old('dfe') }}"
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                            type="file"
-                            id="dfe" />
-                            @if($errors->has('dfe'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('dfe') }}</strong>
-                                </div>
-                            @endif
-                    </div>
+                   
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm  mb-1 font-bold" for="matricule">
                         Registre de commerce
@@ -464,6 +448,24 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            window.addEventListener('inscription', event => {
+                Swal.fire({
+                    title: 'Inscription !',
+                    text: event.detail.message || 'Votre inscription a bien été enregistrée.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok',  // Bouton de confirmation
+                    customClass: {
+                        confirmButton: 'bg-amber-900 text-white px-4 py-2 rounded'  // Customiser le bouton
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Action à prendre après que l'utilisateur a confirmé
+                        console.log('Inscription confirmée');
+                    }
+                });
+            });
+        });
         function isNumber(event){
                     var charCode = (event.which) ? event.which : event.keyCode
                     if (charCode > 31 && (charCode < 48 || charCode > 57))

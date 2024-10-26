@@ -302,15 +302,15 @@
 @if($isOpenShow)
     <div class="fixed inset-0 flex items-center justify-center z-50">
             <div class="absolute inset-0 bg-black opacity-50"></div>
-            <div class="relative bg-gray-100 p-8 rounded shadow-lg w-1/2 ">
+            <div class="relative bg-gray-100 p-8 rounded shadow-lg w-full h-full overflow-auto ">
                
                 <svg wire:click.prevent="$set('isOpenShow', false)"
                 class="ml-auto w-6 h-6 text-gray-900 dark:text-gray-900 cursor-pointer fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
                 </svg>
-                @if($step === 1)
+               
                     <h2 class="text-xl font-bold mb-4 uppercase">cooperative</h2><br/>
-                    <h4 class="text-s font-bold mb-4 uppercase">Matricule: <span class="text-amber-600">{{ $matricule }}</span></h4>
+                    <h4 class="text-s font-bold mb-4 uppercase">Numéro du Registre de Commerce: <span class="text-amber-600">{{ $numRegistreCommerce }}</span></h4>
 
                     <div class="flex gray-400 mb-6">
                         
@@ -336,10 +336,7 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 Addresse : <span class="text-amber-600">{{ $address }}</span>
-                            </label>
-
-                            
-                            
+                            </label> 
                             
                         </div>
                     
@@ -424,32 +421,24 @@
                             
                         </div>
                     
-                        <div class="w-full md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                DFE : <a href="{{ asset($dfe) }}" target="_blank" class="text-amber-600">Voir</a>
-                            </label>
-                            
-                        </div>
+                        
                         
                     </div>
-                @else
+               
 
                     <h2 class="text-xl font-bold mb-4 uppercase">PCA</h2><br/>
                     <div class="flex gray-400 mb-6">
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                            Nom & prénoms : <span class="text-amber-600">{{ $pca->fullname }}</span>
+                            Nom & prénoms : <span class="text-amber-600">{{ $pca?->fullname ??''  }}</span>
                             </label>
-
-                            
-                            
                             
                         </div>
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Contact : <span class="text-amber-600">{{ $pca->phone }}</span>
+                                Contact : <span class="text-amber-600">{{ $pca?->phone ??'' }}</span>
                             </label>
                             
                         </div>
@@ -460,7 +449,7 @@
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                            Email : <span class="text-amber-600">{{ $pca->email }}</span>
+                            Email : <span class="text-amber-600">{{ $pca?->email ??'' }}</span>
                             </label>
 
                             
@@ -470,7 +459,12 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Photo : <a href="{{ asset($photo_pca) }}" target="_blank" class="text-amber-600">Voir</a>
+                                Photo : 
+                                @if(!empty($photo_pca))
+                                    <a href="{{ asset($photo_pca) }}" target="_blank" class="text-amber-600">Voir</a>
+                                @else
+                                    Aucune photo
+                                @endif
                             </label>
                             
                         </div>
@@ -482,7 +476,7 @@
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                            Nom & prénoms : <span class="text-amber-600">{{ $sup->fullname }}</span>
+                            Nom & prénoms : <span class="text-amber-600">{{ $sup?->fullname ?? '' }}</span>
                             </label>
 
                             
@@ -492,7 +486,7 @@
                     
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Contact : <span class="text-amber-600">{{ $sup->phone }}</span>
+                                Contact : <span class="text-amber-600">{{ $sup?->phone ?? '' }}</span>
                             </label>
                             
                         </div>
@@ -503,17 +497,22 @@
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                            Email : <span class="text-amber-600">{{ $sup->email }}</span>
+                            Email : <span class="text-amber-600">{{ $sup?->email ??'' }}</span>
                             </label>
 
                             
                             
                             
                         </div>
-                    
+                        
                         <div class="w-full md:w-1/2 px-3">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
-                                Photo : <a href="{{ asset($photo_sup) }}" class="text-amber-600" target="_blank">Voir</a>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="photo_sup" >
+                                Photo :
+                                 @if(!empty($photo_sup))
+                                 <a href="{{ asset($photo_sup) }}" class="text-amber-600" target="_blank">Voir</a>
+                                 @else 
+                                    Aucune photo 
+                                 @endif
                             </label>
                             
                         </div>
@@ -535,26 +534,16 @@
                         </div>
                         
                     </div>
-                @endif
+                
 
                     <div class="flex justify-between">
-                        @if($step > 1)
-                        <div class="flex justify-end mt-5">
-                            <button type="button"  wire:click="prevStep" class="bg-amber-400 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Précédent</button>
-                        </div>
-                            
-                        @endif
-                        
-                        @if($step < 2)
-                            <button type="button" wire:click="nextStep" class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Suivant</buttion>
-                        
-                        @else
+                       
                         <div class="flex justify-end mt-5">
                             <button type="button" wire:click='rejetCoop("{{$agribusinessId}}")' class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 mx-1 rounded focus:outline-none focus:shadow-outline ">Rejeter</button>
                              @if($statusCoop <> 1)<button type="button" wire:click='valideCoop("{{$agribusinessId}}")' class="bg-amber-900 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded mr-2" >Valider</button>@endif
                         </div>
                             
-                        @endif
+                       
                     </div>
                 
 
