@@ -71,7 +71,7 @@ class OrderController extends BaseController
                     "otp_code"=>$request->otp_code ?? null,
                     "operator"=>$request->channel,
                     "phone_number"=>$request->phone_payment,
-                    "amount"=>100,
+                    "amount"=>env('PRICE') * $request->quantity,
                     "order_id"=>$order->id,
                     "reference_id"=>'K-2.0-'.time()
                 ];
@@ -96,6 +96,17 @@ class OrderController extends BaseController
 
     public function status($id){
         return response()->json(['success' => ["order" => Order::find($id)]], 200);
+    }
+
+    public function price($quantity){
+        return response()->json(
+            ['success' => 
+                [
+                    "amount" => number_format($quantity * env('PRICE'), 0, '.', ' ').' '.env('DEVISE'),
+                    "quantity"=>$quantity.' Kg',
+                    "price"=>number_format(env('PRICE'), 0, '.', ' ').' '.env('DEVISE')
+                ]
+            ], 200);
     }
 
     public function get()
