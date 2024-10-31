@@ -64,6 +64,7 @@ Route::prefix('customer')->group(function () {
 Route::prefix('order')->group(function () {
     
     Route::get('call-back', [OrderController::class, 'call_back'])->name('call-back');
+    Route::get('price/{quantity}', [OrderController::class, 'price'])->name('price');
     Route::post('call-back', [OrderController::class, 'call_back']);
 
     Route::middleware('auth:customers_api')->group(function () {

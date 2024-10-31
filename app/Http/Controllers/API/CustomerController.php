@@ -123,6 +123,15 @@ class CustomerController extends BaseController
     public function update(Request $request)
     {
 
+        $validator = Validator::make($request->all(), [
+            'lang' => 'required',
+        ]);
+
+        if($request->lang == 'Français')
+            App::setLocale('fr');
+        else
+            App::setLocale('en');
+
         $customer = Customer::findOrfail(auth()->id());
 
         $file = $request->file('avatar');
