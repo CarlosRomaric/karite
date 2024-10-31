@@ -22,7 +22,7 @@ return new class extends Migration
             $table->uuid('farmer_id');
             $table->uuid('agribusiness_id')->nullable();
             $table->uuid('user_id');
-            $table->uuid('sealed_id');
+           
             $table->timestamps();
         });
     }

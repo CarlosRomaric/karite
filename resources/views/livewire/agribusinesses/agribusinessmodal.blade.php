@@ -299,7 +299,16 @@
         </div>
 @endif
 
+  
 @if($isOpenShow)
+    @push('stylesheets')
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <style>
+            #map{
+                height: 700px;
+            }
+        </style>
+    @endpush
     <div class="fixed inset-0 flex items-center justify-center z-50">
             <div class="absolute inset-0 bg-black opacity-50"></div>
             <div class="relative bg-gray-100 p-8 rounded shadow-lg w-full h-full overflow-auto ">
@@ -309,8 +318,12 @@
                 <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
                 </svg>
                
-                    <h2 class="text-xl font-bold mb-4 uppercase">cooperative</h2><br/>
-                    <h4 class="text-s font-bold mb-4 uppercase">Numéro du Registre de Commerce: <span class="text-amber-600">{{ $numRegistreCommerce }}</span></h4>
+                    <div class="flex  place-items-center mb-5">
+                        <h4 class="text-2xl w-1/5 text-amber-950 uppercase font-bold">Coopérative</h4>
+                        <hr class="w-4/5 h-1 bg-amber-400">
+                    </div>
+
+                    
 
                     <div class="flex gray-400 mb-6">
                         
@@ -318,8 +331,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 Nom de la coopérative : <span class="text-amber-600">{{ $denomination }}</span>
                             </label>
-                            
-                            
+                                                     
                         </div>
                     
                         <div class="w-full md:w-1/2 px-3">
@@ -354,11 +366,7 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 Departement : <span class="text-amber-600">{{ $departement_id }}</span>
-                            </label>
-
-                            
-                            
-                            
+                            </label>                  
                         </div>
                     
                         <div class="w-full md:w-1/2 px-3">
@@ -376,9 +384,6 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 Certification : <span class="text-amber-600">{{ $certification }}</span>
                             </label>
-
-                            
-                            
                             
                         </div>
                     
@@ -414,19 +419,22 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 Registre de commerce : <a href="{{ asset($registre_commerce) }}" target="_blank" class="text-amber-600">Voir</a>
-                            </label>
-
-                            
-                            
-                            
-                        </div>
-                    
+                            </label>  
+                        </div>   
                         
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="" class="block uppercase tracking-wide text-gray-700 text-xs font-blod mb-2">
+                                <h4 class="text-s font-bold mb-4 uppercase">Numéro du Registre de Commerce: <span class="text-amber-600">{{ $numRegistreCommerce }}</span></h4>
+                            </label>
+                        </div>
                         
                     </div>
-               
 
-                    <h2 class="text-xl font-bold mb-4 uppercase">PCA</h2><br/>
+                    <div class="flex  place-items-center mb-5">
+                        <h4 class="text-2xl w-1/5 text-amber-950 uppercase font-bold">PCA</h4>
+                        <hr class="w-4/5 h-1 bg-amber-400">
+                    </div>
+
                     <div class="flex gray-400 mb-6">
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -471,7 +479,11 @@
                         
                     </div>
 
-                    <h2 class="text-xl font-bold mb-4 uppercase">Superviseur</h2><br/>
+                    <div class="flex  place-items-center mb-6">
+                        <h4 class="text-2xl w-1/5 text-amber-950 uppercase font-bold">Superviseur</h4>
+                        <hr class="w-4/5 h-1 bg-amber-400">
+                    </div>
+
                     <div class="flex gray-400 mb-6">
                         
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -479,8 +491,6 @@
                             Nom & prénoms : <span class="text-amber-600">{{ $sup?->fullname ?? '' }}</span>
                             </label>
 
-                            
-                            
                             
                         </div>
                     
@@ -516,6 +526,7 @@
                             </label>
                             
                         </div>
+                        
                         @if($statusCoop <> 1)
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="acronym" >
@@ -535,7 +546,47 @@
                         @endif
                         
                     </div>
-                
+
+                    <div class="flex  place-items-center mb-6">
+                            <h4 class="text-2xl w-1/5 text-amber-950 uppercase font-bold">PARCS A KARITE</h4>
+                            <hr class="w-4/5 h-1 bg-amber-400">
+                    </div>
+
+                    @foreach ($parcs as $parc)
+                    <div class="flex gray-400 mb-6">
+
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                                Nom du parc : <span class="text-amber-600">{{ $parc?->name ??'' }}</span>
+                            </label>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                               Discription : <span class="text-amber-600">{{ $parc?->description ??'' }}</span>
+                            </label>
+                        </div>
+
+                        
+                       
+                    </div>
+
+                    <div class="flex gray-400">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                               Photo : <img class="rounded w-54" src="{{ asset('images/'.$parc?->picture ??'') }}">
+                            </label>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0" wire:ignore>
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                               Localisation
+                            </label>
+                            
+                        </div>
+                    </div>
+                    @endforeach
+
+                    <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+
                     @if($statusCoop <> 1)
                     <div class="flex justify-between">
                        
@@ -550,7 +601,40 @@
 
             </div>
     </div>
+
+@push('scripts')
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log('test');
+        // Initialiser la carte avec un zoom par défaut et un point central
+        var map = L.map('map').setView([7.539989, -5.547080], 7); // Par exemple, centré sur la Côte d'Ivoire
+
+        // Ajouter un fond de carte OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Points des parcs (remplacez `@json($parcs)` par les données des parcs avec coordonnées GPS)
+        const parcs = @json($parcs);
+
+        // Ajouter un marqueur pour chaque parc
+        parcs.forEach(parc => {
+            if (parc.latitude && parc.longitude) {
+                L.marker([parc.latitude, parc.longitude])
+                .addTo(map)
+                .bindPopup(`<strong>${parc.name}</strong><br>Coordonnées: ${parc.latitude}, ${parc.longitude}`);
+            }
+        });
+    });
+    </script>
+@endpush
+
 @endif
+
+
+
 
 @if($isOpenDelete)
         <div class="fixed inset-0 flex items-center justify-center z-50">
@@ -570,3 +654,5 @@
             </div>
         </div>
 @endif
+
+ 

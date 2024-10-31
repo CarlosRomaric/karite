@@ -67,7 +67,7 @@
                                         <td class="whitespace-nowrap px-6 py-4">{{ $agribusiness->denomination }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{ $agribusiness->sigle }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{ isset($agribusiness->region->name) ? $agribusiness->region->name: '-' }}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{ isset($agribusiness->departement->name) ? $agribusiness->region->name: '-' }}</td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{ isset($agribusiness->departement->name) ? $agribusiness->departement->name: '-' }}</td>
                                         <td class="whitespace-nowrap px-6 py-4">
                                             @if($agribusiness->status==0)
                                                 <span class="bg-amber-500 text-gray-100 rounded-full p-2 font-semibold">En Attente</span>
@@ -86,6 +86,7 @@
                                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M21.1213 2.70705C19.9497 1.53548 18.0503 1.53547 16.8787 2.70705L15.1989 4.38685L7.29289 12.2928C7.16473 12.421 7.07382 12.5816 7.02986 12.7574L6.02986 16.7574C5.94466 17.0982 6.04451 17.4587 6.29289 17.707C6.54127 17.9554 6.90176 18.0553 7.24254 17.9701L11.2425 16.9701C11.4184 16.9261 11.5789 16.8352 11.7071 16.707L19.5556 8.85857L21.2929 7.12126C22.4645 5.94969 22.4645 4.05019 21.2929 2.87862L21.1213 2.70705ZM18.2929 4.12126C18.6834 3.73074 19.3166 3.73074 19.7071 4.12126L19.8787 4.29283C20.2692 4.68336 20.2692 5.31653 19.8787 5.70705L18.8622 6.72357L17.3068 5.10738L18.2929 4.12126ZM15.8923 6.52185L17.4477 8.13804L10.4888 15.097L8.37437 15.6256L8.90296 13.5112L15.8923 6.52185ZM4 7.99994C4 7.44766 4.44772 6.99994 5 6.99994H10C10.5523 6.99994 11 6.55223 11 5.99994C11 5.44766 10.5523 4.99994 10 4.99994H5C3.34315 4.99994 2 6.34309 2 7.99994V18.9999C2 20.6568 3.34315 21.9999 5 21.9999H16C17.6569 21.9999 19 20.6568 19 18.9999V13.9999C19 13.4477 18.5523 12.9999 18 12.9999C17.4477 12.9999 17 13.4477 17 13.9999V18.9999C17 19.5522 16.5523 19.9999 16 19.9999H5C4.44772 19.9999 4 19.5522 4 18.9999V7.99994Z" fill="#fff"/>
                                                 </svg>
                                             </button>
+
                                             <button class="btn-amber-100" wire:click='show("{{$agribusiness->id}}")' >
                                                 <svg fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                                                     width="15px" height="15px" viewBox="0 0 442.04 442.04"
@@ -112,6 +113,7 @@
                                                     </g>
                                                 </svg>
                                             </button>
+
                                             <button class="btn-danger flex flex-row" wire:click='deleteForm("{{$agribusiness->id}}")' >
                                                 <svg width="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12 2.75C11.0215 2.75 10.1871 3.37503 9.87787 4.24993C9.73983 4.64047 9.31134 4.84517 8.9208 4.70713C8.53026 4.56909 8.32557 4.1406 8.46361 3.75007C8.97804 2.29459 10.3661 1.25 12 1.25C13.634 1.25 15.022 2.29459 15.5365 3.75007C15.6745 4.1406 15.4698 4.56909 15.0793 4.70713C14.6887 4.84517 14.2602 4.64047 14.1222 4.24993C13.813 3.37503 12.9785 2.75 12 2.75Z" fill="#fff"/>
@@ -147,3 +149,25 @@
 
           
 </div>
+@push('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            window.addEventListener('validateCoop', event => {
+                Swal.fire({
+                    title: 'Validation !',
+                    text: event.detail.message || 'la coopérative a bien  été enregistré',
+                    icon: 'success',
+                    confirmButtonText: 'Ok',  // Bouton de confirmation
+                    customClass: {
+                        confirmButton: 'bg-amber-900 text-white px-4 py-2 rounded'  // Customiser le bouton
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Action à prendre après que l'utilisateur a confirmé
+                        console.log('Inscription confirmée');
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

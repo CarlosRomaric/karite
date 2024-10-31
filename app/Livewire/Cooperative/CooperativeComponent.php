@@ -29,6 +29,7 @@ class CooperativeComponent extends Component
     public $firstname_pca, $lastname_pca, $phone_pca, $email_pca, $photo_pca;
     public $firstname_sup, $lastname_sup, $phone_sup, $email_sup, $photo_sup;
     public $close = 0;
+    public $checkJob = false;
 
     public function rules():array
     {
@@ -52,18 +53,22 @@ class CooperativeComponent extends Component
 
             'firstname_pca'=>'required',
             'lastname_pca'=>'required',
-            'phone_sup' => 'required|unique:users,phone|unique:users,username', 
+            'phone_pca' => 'required|unique:users,phone|unique:users,username', 
             'email_pca'=>'email|unique:users,email',
-            'photo_pca'=>'nullable|image|max:2048',
+            'photo_pca'=>'nullable|image|max:2048'
+        ];
            
-            'firstname_sup'=>'required',
-            'lastname_sup'=>'required',
-            'phone_sup' => 'required|unique:users,phone|unique:users,username',
-            'email_sup'=>'email|unique:users,email',
-            'photo_sup'=>'nullable|image|max:2048',
+            if ($this->checkJob == false) {
+                $rules = array_merge($rules, [
+                    'firstname_sup' => 'required',
+                    'lastname_sup' => 'required',
+                    'phone_sup' => 'required|unique:users,phone|unique:users,username',
+                    'email_sup' => 'email|unique:users,email',
+                    'photo_sup' => 'nullable|image|max:2048',
+                ]);
+            }
             
 
-        ];
 
         if ($this->logo) {
             $rules['logo'] = 'mimes:pdf,png,jpeg,jpg|max:2048';
@@ -140,19 +145,25 @@ class CooperativeComponent extends Component
                 $this->nextStep();
                 break;
             case 2:
-                $this->validate([
+                $rulesNext = [
                     'firstname_pca'=>'required',
                     'lastname_pca'=>'required',
                     'phone_pca'=>'required|unique:users,phone',
                     'email_pca'=>'emailemail|unique:users,email',
                     'photo_pca'=>'nullable|image|max:2048',
+                ];
+                if ($this->checkJob == false) {
+                    $rulesNext = array_merge($rulesNext, [
+                        'firstname_sup' => 'required',
+                        'lastname_sup' => 'required',
+                        'phone_sup' => 'required|unique:users,phone|unique:users,username',
+                        'email_sup' => 'email|unique:users,email',
+                        'photo_sup' => 'nullable|image|max:2048',
+                    ]);
+                }
                 
-                    'firstname_sup'=>'required',
-                    'lastname_sup'=>'required',
-                    'phone_sup'=>'required|unique:users,phone',
-                    'email_sup'=>'email|unique:users,email',
-                    'photo_sup'=>'nullable|image|max:2048',
-                ], $this->messages());
+
+                $this->validate($rulesNext, $this->messages());
                 $this->nextStep();
                 break;
             
@@ -162,6 +173,16 @@ class CooperativeComponent extends Component
         }
         
        
+    }
+
+    public function updatecheckJob()
+    {
+        if($this->checkJob==false){
+            $this->checkJob = true;
+        }else{
+            $this->checkJob = false;
+        }
+        
     }
 
     public function saveCoop(){
@@ -221,29 +242,36 @@ class CooperativeComponent extends Component
         
         $pca->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
 
-        $sup = new User();
-        $sup->fullname = $this->lastname_sup.' '.$this->firstname_sup;
-        $sup->username = str_replace(" ", "", $this->phone_sup);
-        $sup->phone = str_replace(" ", "", $this->phone_sup);
-        $sup->email = $this->email_sup; 
-        $sup->agribusiness_id = $agribusiness->id;
-        $sup->password =  Hash::make($sup->phone);
-        if(!empty($this->photo_sup) && $this->photo_sup->isValid()){
-            $pathPhotoSup = 'photo_sup/'.trim($this->sigle);
-            $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
-            $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup,'public');
+        if($this->checkJob==false){
+            $sup = new User();
+            $sup->fullname = $this->lastname_sup.' '.$this->firstname_sup;
+            $sup->username = str_replace(" ", "", $this->phone_sup);
+            $sup->phone = str_replace(" ", "", $this->phone_sup);
+            $sup->email = $this->email_sup; 
+            $sup->agribusiness_id = $agribusiness->id;
+            $sup->password =  Hash::make($sup->phone);
+    
+            if(!empty($this->photo_sup) && $this->photo_sup->isValid()){
+    
+                $pathPhotoSup = 'photo_sup/'.trim($this->sigle);
+                $filenamePhotoSup = trim($this->photo_sup->getClientOriginalName());
+                $sup->picture = $this->photo_sup->storeAs($pathPhotoSup, $filenamePhotoSup,'public');
+                 
+            }
+          
+            $sup->job = 'SUPERVISEUR';
+            
+            $sup->status = 0;
+            $sup->save();
+            $sup->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
         }
-      
-        $sup->job = 'SUPERVISEUR';
-        
-        $sup->status = 0;
-        $sup->save();
-        $sup->roles()->sync(Role::where('name', 'SUPERVISEUR COOPERATIVE')->first()->id);
+       
+       
 
         $this->resetInput();
 
-        session()->flash('message','votre demande d\'inscription de cooperative a bien été enregistré ');
-        $this->dispatch('inscription', ['message' => 'Votre inscription a bien été enregistrée.']);
+        session()->flash('message','Votre demande de création de compte sur Karité 2.0 a bien été reçue, après validation vous allez le recevoir le lien pour télécharger l\'application mobile et vos accès ');
+        $this->dispatch('inscription', ['message' => 'Votre demande de création de compte sur Karité 2.0 a bien été reçue, après validation vous allez le recevoir le lien pour télécharger l\'application mobile et vos accès']);
     }
 
     public function resetInput(){

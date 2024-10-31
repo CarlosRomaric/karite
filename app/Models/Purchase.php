@@ -8,4 +8,9 @@ class Purchase extends Model
     {
         return $this->belongsTo(Farmer::class);
     }
+
+    public function agribusiness()
+    {
+        return $this->belongsTo(Agribusiness::class);
+    }
 }

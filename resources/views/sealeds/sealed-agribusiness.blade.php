@@ -44,7 +44,7 @@
                                 " id="agribusiness_id" name="agribusiness_id">
                                 <option value="">Coopérative</option>
                                 @foreach($agribusinesses as $agribusiness)
-                                    <option value="{{ $agribusiness->id }}" @if(old('agribusiness_id') === $agribusiness->id) selected @endif>{{ $agribusiness->matricule }}</option>
+                                    <option value="{{ $agribusiness->id }}" @if(old('agribusiness_id') === $agribusiness->id) selected @endif>{{ $agribusiness->denomination }}</option>
                                 @endforeach
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

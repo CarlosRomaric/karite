@@ -28,6 +28,16 @@ class AgribusinessController extends Controller
         return view('agribusinesses.index', compact('agribusinesses'));
     }
 
+    public function show($id){
+        $agribusiness = Agribusiness::find($id);
+        $data = [
+            'agribusiness'=>$agribusiness
+        ];
+        
+        return view('agribusinesses.show')->with($data);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

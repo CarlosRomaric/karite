@@ -19,6 +19,7 @@ use App\Http\Controllers\AppMobileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AgribusinessController;
+use App\Http\Controllers\AlmondController;
 use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\ExportToExcelController;
 use App\Http\Controllers\ResetPasswordController;
@@ -54,7 +55,7 @@ Route::group(['middleware' => 'guest'], function() {
     Route::post('restore', [AuthController::class, 'restore'])->name('auth.restore');
     Route::get('password-reset', [ResetPasswordController::class, 'passwordReset'])->name('users.password-reset.form');
     Route::post('password-reset', [ResetPasswordController::class, 'changePassword'])->name('users.password-reset');
-
+    Route::get('offre-detail/{id}',[PagesController::class, 'offre_detail'])->name('offre.detail');
 });
 
 Route::group(['middleware' => 'auth'], function() {
@@ -70,6 +71,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::view('/', 'agribusinesses.index')->name('agribusinesses');
             Route::get('/index', [AgribusinessController::class,'index'])->name('agribusinesses.index');
             Route::post('/store', [AgribusinessController::class, 'store'])->name('agribusinesses.store');
+            Route::get('/show/{id}',[AgribusinessController::class, 'show'])->name('agribusiness.show');
         });
 
         Route::prefix('roles')->group(function() {
@@ -136,6 +138,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::prefix('offers')->group(function(){
             Route::view('/', 'offers.index')->name('offers');
             Route::get('/index',[OfferController::class,'index'])->name('offers.index');
+            Route::get('/show/{id}',[OfferController::class,'show'])->name('offers.show');
         });
 
         Route::prefix('orders')->group(function(){
@@ -146,5 +149,11 @@ Route::group(['middleware' => 'auth'], function() {
         Route::prefix('certification')->group(function(){
             Route::view('/', 'certification.index')->name('certification');
             Route::get('/index',[CertificationController::class,'index'])->name('certification.index');
+        });
+
+        Route::prefix('almond')->group(function(){
+            Route::view('/','almond.index')->name('almond');
+            Route::get('/index',[AlmondController::class, 'index'])->name('almond.index');
+            Route::get('/show/{id}',[AlmondController::class, 'show'])->name('almond.show');
         });
 });

@@ -276,10 +276,16 @@
                                 </div>
                         @endif
                     </div>
-                 
+                    <div class="mb-4">
+                        <input type="checkbox" class="" wire:model.change="checkJob">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_sup">
+                            Cocher si le PCA est également le superviseur de la coopérative
+                        </label>
+                    </div>
                    
                 
                 </div>
+               
                 <div class="w-1/2">
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="firstname_pca">
@@ -324,6 +330,8 @@
                         @endif
                         
                     </div>
+
+
                     
                     
                   
@@ -335,6 +343,7 @@
                 <h4 class="text-2xl w-1/6 text-amber-950 font-bold uppercase">superviseur</h4>
                 <hr class="w-5/6 h-1 bg-amber-300 ">
             </div>
+            @if($checkJob==false)
 
             <div class="flex">
 
@@ -366,6 +375,24 @@
                         @endif
                     
                     </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm mb-2 font-bold" for="photo_sup">
+                        Photo d'identité
+                        </label>
+
+                        <input
+                            name="photo_sup"
+                            wire:model="photo_sup"
+                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
+                            type="file"
+                            id="photo_sup" />
+                            @if($errors->has('photo_sup'))
+                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
+                                        <strong>{{ $errors->first('photo_sup') }}</strong>
+                                </div>
+                            @endif
+                        
+                    </div>
                    
 
                 </div>
@@ -395,32 +422,17 @@
                         @endif
                     
                     </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm mb-2 font-bold" for="photo_sup">
-                        Photo d'identité
-                        </label>
-
-                        <input
-                            name="photo_sup"
-                            wire:model="photo_sup"
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.16rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-amber-950 focus:text-gray-700 focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white"
-                            type="file"
-                            id="photo_sup" />
-                            @if($errors->has('photo_sup'))
-                                <div class="bg-red-200 text-red-700 rounded py-5 px-4 mt-2">
-                                        <strong>{{ $errors->first('photo_sup') }}</strong>
-                                </div>
-                            @endif
-                        
-                    </div>
-
+                   
+                    
                     
                    
 
                 </div>
 
             </div> 
-                
+
+            
+            @endif    
         
         @endif
     

@@ -13,4 +13,9 @@ class Certification extends Model
     {
         return $this->hasMany(Offer::class);
     }
+
+    public function agribusinesses()
+    {
+        return $this->hasMany(Agribusiness::class, 'agribusiness_id');
+    }
 }

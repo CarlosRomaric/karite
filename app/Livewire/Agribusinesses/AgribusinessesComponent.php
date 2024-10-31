@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Agribusinesses;
 
+use App\Models\Parc;
 use App\Models\User;
 use App\Models\Region;
 use Livewire\Component;
@@ -29,7 +30,8 @@ class AgribusinessesComponent extends Component
     public $regions, $departements;
     public $doc_dfe, $doc_registre_commerce;
     public $statusCoop;
-   
+    public $parcs;
+
     public $motif;
     public $close = 0;
     
@@ -209,7 +211,6 @@ class AgribusinessesComponent extends Component
     public function valideCoop($id){
         if($this->motif != '' ){
 
-       
             $agribusiness = Agribusiness::find($id);
             $agribusiness->status = 1;
             $agribusiness->motif = $this->motif;
@@ -221,12 +222,17 @@ class AgribusinessesComponent extends Component
             $this->sup = User::where('agribusiness_id',$this->agribusinessId)->where('job','SUPERVISEUR')->first();
             
                 $messageSender = new NewSmsAPI();
-                $messageSup ='vos accèss on bien été crée login sur l\'application karite 2.0 login:'.$this->sup->phone.' et le mot de passe est: '.$this->sup->phone;
-                $messagePca ='vos accèss on bien été crée login sur l\'application karite 2.0 login:'.$this->pca->phone.' et le mot de passe est: '.$this->pca->phone;
-                $messageSender->sendSMS([$this->sup->phone], $messageSup);
+               
+                $messagePca ='[Karité 2.0]: Vos accès pour vous connecter Login: '.$this->pca->phone.' Mot de passe est: '.$this->pca->phone.' Lien de téléchargement de l’application: XXXXXXXXXXX';
                 $messageSender->sendSMS([$this->pca->phone], $messagePca);
+
+                if(!empty($this->sup))
+                {
+                    $messageSup ='[Karité 2.0]: Vos accès pour vous connecter Login: '.$this->sup->phone.' Mot de passe est: '.$this->sup->phone.' Lien de téléchargement de l’application: XXXXXXXXXXX';
+                    $messageSender->sendSMS([$this->sup->phone], $messageSup);
+                }
+                $this->dispatch('validateCoop', ['message' => 'la coopérative a bien été validé']);
             
-           
             $this->closeModalShow();
         }else{
             session()->put('errorMotif','Vous devez renseigner le motif pour valider');
@@ -236,7 +242,6 @@ class AgribusinessesComponent extends Component
     public function rejetCoop($id){
         
         if($this->motif != '' ){
-
        
             $agribusiness = Agribusiness::find($id);
             $agribusiness->status = 2;
@@ -289,38 +294,41 @@ class AgribusinessesComponent extends Component
 
     public function show($id)
     {
+        return redirect(route('agribusiness.show',['id'=>$id]));
         
-        $this->openModalShow();
-        $agribusiness = Agribusiness::findOrFail($id);
-        //dd($agribusiness);
-        $this->agribusinessId = $id;
-        $this->numRegistreCommerce = $agribusiness->numRegistreCommerce;
-        $this->denomination = $agribusiness->denomination;
-        $this->sigle = $agribusiness->sigle;
-        $this->address = $agribusiness->address;
-        $this->region_id = $agribusiness->region->name;
-        $this->departement_id = $agribusiness->departement->name;
-        $this->headquaters = $agribusiness->headquaters;
-        $this->certification = $agribusiness->certification;
-        $this->bank = $agribusiness->bank;
+        // $this->openModalShow();
+        // $agribusiness = Agribusiness::findOrFail($id);
+        // //dd($agribusiness);
+        // $this->agribusinessId = $id;
+        // $this->numRegistreCommerce = $agribusiness->numRegistreCommerce;
+        // $this->denomination = $agribusiness->denomination;
+        // $this->sigle = $agribusiness->sigle;
+        // $this->address = $agribusiness->address;
+        // $this->region_id = $agribusiness->region->name;
+        // $this->departement_id = $agribusiness->departement->name;
+        // $this->headquaters = $agribusiness->headquaters;
+        // $this->certification = $agribusiness->certification;
+        // $this->bank = $agribusiness->bank;
       
-        $this->number_sections = $agribusiness->number_sections;
-        $this->number_unite_transformations = $agribusiness->number_unite_transformations;
-        $this->registre_commerce = str_replace('public/', '' ,$agribusiness->registre_commerce);
+        // $this->number_sections = $agribusiness->number_sections;
+        // $this->number_unite_transformations = $agribusiness->number_unite_transformations;
+        // $this->registre_commerce = str_replace('public/', '' ,$agribusiness->registre_commerce);
        
-        $this->pca = User::where('agribusiness_id',$this->agribusinessId)->where('job','PCA')->first();
-        $this->sup = User::where('agribusiness_id',$this->agribusinessId)->where('job','SUPERVISEUR')->first();
-        if(!empty($this->photo_pca) && !is_null($this->photo_pca)){
-            $this->photo_pca =  str_replace('public/', '', $this->pca->picture);
-        }
-        if(!empty($this->photo_sup) && !is_null($this->photo_sup))
-        {
-            $this->photo_sup =  str_replace('public/', '', $this->sup->picture);
-        }
+        // $this->pca = User::where('agribusiness_id',$agribusiness->id)->where('job','PCA')->first();
+        // $this->sup = User::where('agribusiness_id',$agribusiness->id)->where('job','SUPERVISEUR')->first();
+        // if(!empty($this->photo_pca) && !is_null($this->photo_pca)){
+        //     $this->photo_pca =  str_replace('public/', '', $this->pca->picture);
+        // }
+        // if(!empty($this->photo_sup) && !is_null($this->photo_sup))
+        // {
+        //     $this->photo_sup =  str_replace('public/', '', $this->sup->picture);
+        // }
       
         
-        $this->motif = $agribusiness->motif;
-        $this->statusCoop = $agribusiness->status;
+        // $this->motif = $agribusiness->motif;
+        // $this->statusCoop = $agribusiness->status;
+
+        // $this->parcs = Parc::where('agribusiness_id',$id)->get();
        
     }   
 

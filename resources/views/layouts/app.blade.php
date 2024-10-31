@@ -91,7 +91,7 @@
                     </li>
                     @endcanany
 
-                    <li class="menu-hover my-6 {{ (request()->is('offers', 'offers*') || request()->is('orders', 'orders*')) ? 'active' : '' }} md:my-0 hover:h-full hover:active" id="offersDefaultButton" data-dropdown-toggle="dropdownOffers">
+                    <li class="menu-hover my-6 {{ (request()->is('offers', 'offers*') || request()->is('orders', 'orders*') || request()->is('almond', 'almond*') ) ? 'active' : '' }} md:my-0 hover:h-full hover:active" id="offersDefaultButton" data-dropdown-toggle="dropdownOffers">
                         <a class="menu-item">
                             <img class="img-h " src="{{ asset('assets/img/icons/market.svg') }} " alt="marketIcons" >
                             <span for="" class="cursor-pointer text-base">Marchés</span>
@@ -104,7 +104,10 @@
                                 </li>
                                
                                 <li>
-                                    <a href="{{ route('orders.index') }}" class="block px-4 py-2 border-b hover:rounded-b-lg hover:border-gray-100 hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white" wire:navigate.hover>Commandes</a>
+                                    <a href="{{ route('orders.index') }}" class="block px-4 py-2 border-b  hover:border-gray-100 hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white" wire:navigate.hover>Commandes</a>
+                                </li> 
+                                <li>
+                                    <a href="{{ route('almond.index') }}" class="block px-4 py-2 border-b hover:rounded-b-lg hover:border-gray-100 hover:bg-amber-800 hover:text-white dark:hover:bg-amber-800 dark:hover:text-white" wire:navigate.hover>Achat d'Amandes</a>
                                 </li> 
                                
                             </ul>
@@ -216,6 +219,7 @@
 
 @stack('javascript')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
      document.addEventListener('livewire:navigated',() => {

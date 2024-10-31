@@ -30,6 +30,17 @@ class OfferComponent extends Component
         return $query;
     }
 
+    public function show($id)
+    {
+       return redirect(route('offers.show',['id'=>$id]));
+    }
+
+    public function showFront($id)
+    {
+        
+       return redirect(route('offre.detail',['id'=>$id]));
+    }
+
     public function demande($offer_id)
     {
         return redirect(route('pages.order',['offerId'=>$offer_id]));

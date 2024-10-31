@@ -59,5 +59,14 @@ class Agribusiness extends Model
         return $this->hasMany(Lot::class);
     }
 
+    public function certification()
+    {
+        return $this->belongsTo(Certification::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class,'agribusiness_id');
+    }
 
 }
